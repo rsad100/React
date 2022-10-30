@@ -1,0 +1,102 @@
+.section-center {
+  background-image: url("../assets/history-background.png");
+  background-repeat: round;
+  padding-top: 107px;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 97px;
+}
+
+.section-center-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 47.4px;
+  color: #ffffff;
+}
+
+.section-center-header-text {
+  color: #ffffff;
+  font-weight: 400;
+  font: 20px;
+  line-height: 23.7px;
+  text-align: center;
+}
+
+.section-center-text {
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: right;
+  text-decoration-line: underline;
+  color: #ffffff;
+}
+
+.section-center-2 {
+  margin-top: 37px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(394px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(126px, 1fr));
+  grid-column-gap: 16px;
+  grid-row-gap: 26px;
+}
+
+.section-center-div {
+  position: relative;
+  display: flex;
+  background-color: #ffffff;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 29px;
+  padding-right: 29px;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
+}
+
+.section-center-div-image {
+  height: 83px;
+  width: auto;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.section-center-div-text-1 {
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  color: black;
+}
+
+.section-center-div-text-2 {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: #895537;
+}
+
+.section-center-div-check {
+  position: absolute;
+  right: 29px;
+  bottom: 25px;
+  width: 25px;
+  height: 25px;
+  background-color: #f5f5f8;
+  border: 2px solid #6a4029;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .section-center {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .section-center-2 {
+    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(126px, 1fr));
+  }
+}
