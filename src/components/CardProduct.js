@@ -9,7 +9,7 @@ class CardProducts extends Component {
       <div
         className={styles["item"]}
         onClick={() => {
-          this.props.navigate("/details", {
+          this.props.navigate(`/details/?id=${this.props.keys}`, {
             state: {
               name: this.props.name,
               img: this.props.img,

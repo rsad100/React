@@ -10,7 +10,7 @@ import withNavigate from "../helpers/withNavigate";
 
 class Navigate extends Component {
   render() {
-    // console.log(this.props.searchValue);
+    //console.log(this.props.searchValue);
     return (
       <nav className={styles["nav-bar"]}>
         <section className={styles["nav-header"]}>
@@ -38,7 +38,14 @@ class Navigate extends Component {
           >
             Product
           </p>
-          <p className={styles["nav-text"]}>Your Cart</p>
+          <p
+            className={styles["nav-text"]}
+            onClick={() => {
+              this.props.navigate("/payment");
+            }}
+          >
+            Your Cart
+          </p>
           <p
             className={styles["nav-text"]}
             onClick={() => {

@@ -13,9 +13,8 @@
 .section-center-2 {
   margin-top: 62px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   column-gap: 176px;
-  padding-left: 68px;
 }
 
 .section-center-3 {

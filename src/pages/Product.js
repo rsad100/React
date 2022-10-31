@@ -223,13 +223,13 @@ class Product extends Component {
                 </nav>
                 <section className={styles["section-center-product"]}>
                   {this.state.products.map((product) => {
-                    console.log(product);
+                    // console.log(product);
                     return (
                       <CardProduct
                         img={product.image_product}
                         name={product.name_product}
                         price={`IDR ${product.price}`}
-                        key={product.id_product}
+                        keys={product.id_product}
                         desc={product.desc_product}
                       />
                     );

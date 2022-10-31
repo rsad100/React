@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import Axios from "axios";
 import styles from "../styles/Login.module.css";
 
 import signupBackground from "../assets/signup-background.webp";
@@ -11,7 +12,37 @@ import instagram from "../assets/instagram-vector.png";
 import withNavigate from "../helpers/withNavigate";
 
 class Logins extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event, field) {
+    this.setState({ [field]: event.target.value });
+  }
+
+  handleSubmit(event) {
+    const url = `http://localhost:8080/api/v1/auth/`;
+    const data = { email: this.state.email, password: this.state.password };
+    Axios.post(url, data)
+      .then((res) => {
+        localStorage.setItem("token", res.data.data.token);
+        this.props.navigate("/home");
+      })
+      .catch((err) => console.log(err));
+
+    event.preventDefault();
+  }
+
   render() {
+    // console.log(localStorage.getItem("token"));
+    // console.log(`email ${this.state.email}`);
+    // console.log(`password ${this.state.password}`);
     return (
       <Fragment>
         <main className={styles["container"]}>
@@ -39,13 +70,18 @@ class Logins extends Component {
               </aside>
             </section>
             <section className={styles["register-form"]} id="register">
-              <form className={`${styles["full-width"]} ${styles["form"]}`}>
+              <form
+                onSubmit={this.handleSubmit}
+                className={`${styles["full-width"]} ${styles["form"]}`}
+              >
                 <div className={styles["input-div"]}>
                   <label className={styles["label"]}>Email Adress :</label>
                   <input
                     className={styles["input"]}
                     type="text"
                     placeholder="Enter your email address"
+                    value={this.state.email}
+                    onChange={(event) => this.handleChange(event, "email")}
                   />
                 </div>
                 <div className={styles["input-div"]}>
@@ -54,6 +90,8 @@ class Logins extends Component {
                     className={styles["input"]}
                     type="password"
                     placeholder="Enter your password"
+                    value={this.state.password}
+                    onChange={(event) => this.handleChange(event, "password")}
                   />
                 </div>
                 <p
@@ -64,14 +102,12 @@ class Logins extends Component {
                 >
                   Forgot password?
                 </p>
-                <div
+                <button
                   className={`${styles["btn"]} ${styles["primary"]}`}
-                  onClick={() => {
-                    this.props.navigate("/home");
-                  }}
+                  type="submit"
                 >
                   <p className={styles["btn-text-signup"]}>Login</p>
-                </div>
+                </button>
                 <div className={styles["btn-google"]}>
                   <img
                     className={styles["img-google"]}

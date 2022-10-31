@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   { path: "/Forgot", element: <Forgot /> },
   { path: "/Payment", element: <Payment /> },
   { path: "/History", element: <History /> },
-  { path: "/Details", element: <Details /> },
+  { path: "/Details/:id", element: <Details /> },
 ]);
 
 export default router;
