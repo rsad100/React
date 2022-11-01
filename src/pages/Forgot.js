@@ -8,6 +8,10 @@ import twitter from "../assets/twitter-vector.png";
 import instagram from "../assets/instagram-vector.png";
 
 class Forgot extends Component {
+  componentDidMount() {
+    document.title = "Forgot Password";
+  }
+
   render() {
     return (
       <Fragment>

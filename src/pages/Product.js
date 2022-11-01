@@ -30,7 +30,7 @@ class Product extends Component {
   }
 
   handleSubmit(event) {
-    const url3 = `http://localhost:8080/api/v1/products/?filter=${this.state.filter}&keyword=${this.state.searchValue}`;
+    const url3 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=${this.state.filter}&keyword=${this.state.searchValue}`;
     Axios.get(url3)
       .then((res) => {
         this.setState({
@@ -43,8 +43,9 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    const url = "http://localhost:8080/api/v1/products/?filter=Coffee";
-    const url2 = "http://localhost:8080/api/v1/promos/";
+    document.title = "Payment";
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee`;
+    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/`;
     Axios.get(url2)
       .then((res) => {
         this.setState({
@@ -113,8 +114,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryFav]}
                     onClick={() => {
-                      const url =
-                        "http://localhost:8080/api/v1/products/?filter=Fav";
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Fav`;
                       Axios.get(url)
                         .then((res) => {
                           this.setState({
@@ -135,8 +135,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryCoffee]}
                     onClick={() => {
-                      const url =
-                        "http://localhost:8080/api/v1/products/?filter=Coffee";
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee`;
                       Axios.get(url)
                         .then((res) => {
                           this.setState({
@@ -157,8 +156,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryNon]}
                     onClick={() => {
-                      const url =
-                        "http://localhost:8080/api/v1/products/?filter=Non";
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Non`;
                       Axios.get(url)
                         .then((res) => {
                           this.setState({
@@ -179,8 +177,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryFoods]}
                     onClick={() => {
-                      const url =
-                        "http://localhost:8080/api/v1/products/?filter=Food";
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Food`;
                       Axios.get(url)
                         .then((res) => {
                           this.setState({
@@ -201,8 +198,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryAdd]}
                     onClick={() => {
-                      const url =
-                        "http://localhost:8080/api/v1/products/?filter=Add";
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Add`;
                       Axios.get(url)
                         .then((res) => {
                           this.setState({

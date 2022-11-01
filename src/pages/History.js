@@ -8,6 +8,10 @@ import Nav from "../components/Nav";
 import CardHistory from "../components/CardHistory";
 
 class History extends Component {
+  componentDidMount() {
+    document.title = "History";
+  }
+
   render() {
     return (
       <Fragment>

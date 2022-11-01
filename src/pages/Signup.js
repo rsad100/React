@@ -12,6 +12,10 @@ import instagram from "../assets/instagram-vector.png";
 import withNavigate from "../helpers/withNavigate";
 
 class Signups extends Component {
+  componentDidMount() {
+    document.title = "Sign Up";
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +32,7 @@ class Signups extends Component {
   }
 
   handleSubmit(event) {
-    const url = "http://localhost:8080/api/v1/users/register";
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/register`;
     const data = {
       phone_number: this.state.phone,
       email: this.state.email,

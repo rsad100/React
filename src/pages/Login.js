@@ -12,6 +12,10 @@ import instagram from "../assets/instagram-vector.png";
 import withNavigate from "../helpers/withNavigate";
 
 class Logins extends Component {
+  componentDidMount() {
+    document.title = "Login";
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +31,7 @@ class Logins extends Component {
   }
 
   handleSubmit(event) {
-    const url = `http://localhost:8080/api/v1/auth/`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/auth/`;
     const data = { email: this.state.email, password: this.state.password };
     Axios.post(url, data)
       .then((res) => {

@@ -10,6 +10,10 @@ import Nav from "../components/Nav";
 import withNavigate from "../helpers/withNavigate";
 
 class Profiles extends Component {
+  componentDidMount() {
+    document.title = "Profile";
+  }
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);

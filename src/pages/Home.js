@@ -27,6 +27,10 @@ import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
 class Home extends Component {
+  componentDidMount() {
+    document.title = "Home";
+  }
+
   render() {
     return (
       <Fragment>

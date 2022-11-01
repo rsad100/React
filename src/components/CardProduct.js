@@ -22,7 +22,7 @@ class CardProducts extends Component {
         <div className={styles["div-image"]}>
           <img
             className={styles["item-image"]}
-            src={`http://localhost:8080/${this.props.img}`}
+            src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.props.img}`}
             alt="img"
           />
           {/* <div className={styles["discount-div"]}>

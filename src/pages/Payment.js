@@ -12,6 +12,10 @@ import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
 class Payment extends Component {
+  componentDidMount() {
+    document.title = "Payment";
+  }
+
   render() {
     return (
       <Fragment>

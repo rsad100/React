@@ -56,6 +56,7 @@
 }
 
 .item-image {
+  height: 100px;
   border-radius: 50%;
 }
 
@@ -512,10 +513,6 @@
   .item {
     padding-bottom: 20%;
     height: 200px;
-  }
-
-  .item-image {
-    height: 100px;
   }
 
   .footer {

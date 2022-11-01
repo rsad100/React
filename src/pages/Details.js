@@ -20,7 +20,8 @@ class Detailss extends Component {
   }
 
   componentDidMount() {
-    const url = "http://localhost:8080/api/v1/products/";
+    document.title = "Product Detail";
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/`;
     Axios.get(url)
       .then((res) => {
         this.setState({
@@ -48,8 +49,8 @@ class Detailss extends Component {
             <section className={styles["section-center-2"]}>
               <img
                 className={styles["aside-left-img"]}
-                src={`http://localhost:8080/${this.data?.image_product}`}
-                alt="cold"
+                src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
+                alt="img"
               />
               <aside>
                 <h1 className={styles["aside-right-header"]}>
@@ -130,8 +131,8 @@ class Detailss extends Component {
                   <div className={styles["section-3-div-5"]}>
                     <img
                       className={styles["section-3-img"]}
-                      src={`http://localhost:8080/${this.data?.image_product}`}
-                      alt="cold"
+                      src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
+                      alt="img"
                     />
                     <div>
                       <h1 className={styles["section-3-header-1"]}>

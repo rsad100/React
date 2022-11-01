@@ -25,13 +25,13 @@ export default function App() {
           <Route path="/Profile" element={<Profile />}></Route>
           <Route path="/Payment" element={<Payment />}></Route>
           <Route path="/History" element={<History />}></Route>
+          <Route path="/Product" element={<Product />}></Route>
+          <Route path="/Details" element={<Details />}></Route>
         </Route>
         <Route path="/Login" element={<Login />}></Route>
         <Route path="/Signup" element={<Signup />}></Route>
 
-        <Route path="/Product" element={<Product />}></Route>
         <Route path="/Forgot" element={<Forgot />}></Route>
-        <Route path="/Details" element={<Details />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -10,7 +10,7 @@ function CardPromo(props) {
     >
       <img
         className={styles["aside-left-image"]}
-        src={`http://localhost:8080/${props.img}`}
+        src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${props.img}`}
         alt="img"
       />
       <section>
