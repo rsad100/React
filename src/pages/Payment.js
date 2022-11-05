@@ -1,22 +1,81 @@
 import React, { Component, Fragment } from "react";
 import styles from "../styles/Payment.module.css";
+import jwt from "jwt-decode";
+import Axios from "axios";
 
 import card from "../assets/card.png";
-import hazelnut from "../assets/hazelnut-2.png";
 import check from "../assets/check.png";
 import bank from "../assets/bank.png";
 import delivery from "../assets/delivery.png";
-import chicken from "../assets/chicken.png";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
 class Payment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: [],
+      user: [],
+      button1: "aside-right-div-button-2",
+      button2: "aside-right-div-button",
+      button3: "aside-right-div-button",
+      payment: 1,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   componentDidMount() {
     document.title = "Payment";
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.info = jwt(token);
+      this.id = this.info.user_id;
+      // console.log(this.id);
+    }
+
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
+    console.log(this.id);
+    Axios.get(url)
+      .then((res) => {
+        this.setState({
+          userData: res.data.result,
+        });
+        // console.log(res.data.result);
+      })
+      .catch((err) => console.log(err));
+
+    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users`;
+    Axios.get(url2)
+      .then((res) => {
+        this.setState({
+          user: res.data.result,
+        });
+        // console.log(res.data.result);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions/`;
+    const body = {
+      id_product: localStorage.getItem("id_product"),
+      amount: localStorage.getItem("amount_product"),
+      id_user: this.id,
+      id_payment: this.state.payment,
+    };
+    Axios.post(url, body)
+      .then((res) => {
+        console.log(res.data.result);
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
+    this.data = this.state.userData.find((item) => item.id_user === this.id);
+    this.data2 = this.state.user.find((item) => item.id_user === this.id);
     return (
       <Fragment>
         <body>
@@ -73,32 +132,24 @@ class Payment extends Component {
                     <div className={styles["aside-left-div-div"]}>
                       <img
                         className={styles["aside-left-image"]}
-                        src={hazelnut}
+                        src={localStorage.getItem("image_product")}
                         alt="hazelnut"
                       />
                       <div className={styles["aside-left-header-div-div"]}>
                         <p className={styles["aside-left-text-1"]}>
-                          Hazelnut Latte
+                          {localStorage.getItem("name_product")}
                         </p>
-                        <p className={styles["aside-left-text-1"]}>x1</p>
-                        <p className={styles["aside-left-text-1"]}>Regular</p>
+                        <p className={styles["aside-left-text-1"]}>
+                          x{localStorage.getItem("amount_product")}
+                        </p>
+                        <p className={styles["aside-left-text-1"]}>
+                          {localStorage.getItem("size_product")}
+                        </p>
                       </div>
                     </div>
-                    <p className={styles["aside-left-text-1"]}>IDR 24.0</p>
-                  </div>
-                  <div className={styles["aside-left-div"]}>
-                    <img
-                      className={styles["aside-left-image"]}
-                      src={chicken}
-                      alt="chicken"
-                    />
-                    <div className={styles["aside-left-header-div-div"]}>
-                      <p className={styles["aside-left-text-1"]}>
-                        Chicken Fire Wings
-                      </p>
-                      <p className={styles["aside-left-text-1"]}>x1</p>
-                    </div>
-                    <p className={styles["aside-left-text-1"]}>IDR 30.0</p>
+                    <p className={styles["aside-left-text-1"]}>
+                      IDR {localStorage.getItem("price_product")}
+                    </p>
                   </div>
                   <div className={styles["aside-left-line"]}></div>
                   <div className={styles["aside-left-div-2"]}>
@@ -108,17 +159,33 @@ class Payment extends Component {
                       <p className={styles["aside-left-text-2"]}>SHIPPING</p>
                     </aside>
                     <aside>
-                      <p className={styles["aside-left-text-2"]}>IDR 120.000</p>
-                      <p className={styles["aside-left-text-2"]}>IDR 20.000</p>
-                      <p className={styles["aside-left-text-2"]}>IDR 10.000</p>
+                      <p className={styles["aside-left-text-2"]}>
+                        IDR{" "}
+                        {localStorage.getItem("price_product") *
+                          localStorage.getItem("amount_product")}
+                      </p>
+                      <p className={styles["aside-left-text-2"]}>
+                        IDR{" "}
+                        {localStorage.getItem("price_product") *
+                          localStorage.getItem("amount_product") *
+                          0.1}
+                      </p>
+                      <p className={styles["aside-left-text-2"]}>IDR 0</p>
                     </aside>
                   </div>
                   <div className={styles["aside-left-div-3"]}>
                     <p className={styles["aside-left-text-3"]}>TOTAL</p>
-                    <p className={styles["aside-left-text-3"]}>IDR 150.000</p>
+                    <p className={styles["aside-left-text-3"]}>
+                      IDR{" "}
+                      {localStorage.getItem("price_product") *
+                        localStorage.getItem("amount_product") +
+                        localStorage.getItem("price_product") *
+                          localStorage.getItem("amount_product") *
+                          0.1}
+                    </p>
                   </div>
                 </aside>
-                <aside>
+                <aside className={styles["aside-right"]}>
                   <div className={styles["aside-right-div-1"]}>
                     <h1 className={styles["aside-right-div-1-header"]}>
                       Address Details
@@ -129,17 +196,17 @@ class Payment extends Component {
                     <div className={styles["aside-right-div-2-div"]}>
                       <p className={styles["aside-right-text-1"]}>Delivery</p>
                       <p className={styles["aside-right-text-2"]}>
-                        to Iskandar Street
+                        to {this.data?.address}
                       </p>
                     </div>
                     <div className={styles["aside-right-div-2-line"]}></div>
-                    <p className={styles["aside-right-text-2"]}>
+                    {/* <p className={styles["aside-right-text-2"]}>
                       Km 5 refinery road oppsite re public road, effurun,
                       jakarta
                     </p>
-                    <div className={styles["aside-right-div-2-line"]}></div>
+                    <div className={styles["aside-right-div-2-line"]}></div> */}
                     <p className={styles["aside-right-text-2"]}>
-                      +62 81348287878
+                      {this.data2?.phone_number}
                     </p>
                   </div>
                   <div className={styles["aside-right-div-3"]}>
@@ -149,7 +216,17 @@ class Payment extends Component {
                   </div>
                   <div className={styles["aside-right-div-4"]}>
                     <div className={styles["aside-right-div-4-div"]}>
-                      <div className={styles["aside-right-div-button"]}></div>
+                      <button
+                        className={styles[this.state.button1]}
+                        onClick={() => {
+                          this.setState({
+                            button1: "aside-right-div-button-2",
+                            button2: "aside-right-div-button",
+                            button3: "aside-right-div-button",
+                            payment: 1,
+                          });
+                        }}
+                      ></button>
                       <div className={styles["aside-right-div-icon"]}>
                         <img
                           className={styles["icon-image"]}
@@ -161,7 +238,17 @@ class Payment extends Component {
                     </div>
                     <div className={styles["aside-right-div-4-line"]}></div>
                     <div className={styles["aside-right-div-4-div-2"]}>
-                      <div className={styles["aside-right-div-button"]}></div>
+                      <button
+                        className={styles[this.state.button2]}
+                        onClick={() => {
+                          this.setState({
+                            button1: "aside-right-div-button",
+                            button2: "aside-right-div-button-2",
+                            button3: "aside-right-div-button",
+                            payment: 2,
+                          });
+                        }}
+                      ></button>
                       <div className={styles["aside-right-div-icon-2"]}>
                         <img
                           className={styles["icon-image-2"]}
@@ -175,7 +262,17 @@ class Payment extends Component {
                     </div>
                     <div className={styles["aside-right-div-4-line"]}></div>
                     <div className={styles["aside-right-div-4-div-3"]}>
-                      <div className={styles["aside-right-div-button"]}></div>
+                      <button
+                        className={styles[this.state.button3]}
+                        onClick={() => {
+                          this.setState({
+                            button1: "aside-right-div-button",
+                            button2: "aside-right-div-button",
+                            button3: "aside-right-div-button-2",
+                            payment: 3,
+                          });
+                        }}
+                      ></button>
                       <div className={styles["aside-right-div-icon-3"]}>
                         <img
                           className={styles["icon-image-3"]}
@@ -188,11 +285,16 @@ class Payment extends Component {
                       </p>
                     </div>
                   </div>
-                  <div className={styles["aside-right-div-5"]}>
-                    <p className={styles["aside-right-div-5-text"]}>
-                      Confirm and Pay
-                    </p>
-                  </div>
+                  <form onSubmit={this.handleSubmit}>
+                    <button
+                      type="submit"
+                      className={styles["aside-right-div-5"]}
+                    >
+                      <p className={styles["aside-right-div-5-text"]}>
+                        Confirm and Pay
+                      </p>
+                    </button>
+                  </form>
                 </aside>
               </section>
             </section>

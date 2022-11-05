@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styles from "../styles/History.module.css";
+import Axios from "axios";
+import jwt from "jwt-decode";
 
 import veggie from "../assets/image 2.png";
 
@@ -8,11 +10,39 @@ import Nav from "../components/Nav";
 import CardHistory from "../components/CardHistory";
 
 class History extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactions: [],
+    };
+  }
+
   componentDidMount() {
     document.title = "History";
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.info = jwt(token);
+      this.id = this.info.user_id;
+      // console.log(this.id);
+    }
+
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions`;
+    Axios.get(url)
+      .then((res) => {
+        this.setState({
+          transactions: res.data.result,
+        });
+        console.log(res.data.result);
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
+    this.data = this.state.transactions.find(
+      (item) => item.id_user === this.id
+    );
+    console.log(this.id);
     return (
       <Fragment>
         <main>
@@ -31,90 +61,6 @@ class History extends Component {
             </p>
             <p className={styles["section-center-text"]}>Select All</p>
             <section className={styles["section-center-2"]}>
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
               <CardHistory
                 img={veggie}
                 name="Veggie tomato mix"

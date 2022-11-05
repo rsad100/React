@@ -231,6 +231,7 @@
 }
 
 .btn-orange {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,6 +320,7 @@
 }
 
 .btn-text {
+  cursor: pointer;
   text-align: center;
   font-size: 18px;
   font-weight: 700;

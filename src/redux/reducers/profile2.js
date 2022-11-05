@@ -7,15 +7,15 @@ const initialState = {
   err: null,
 };
 
-const profileReducer = (prevState = initialState, action) => {
+const profileReducer2 = (prevState = initialState, action) => {
   switch (action.type) {
-    case actionStrings.patchProfile + actionStrings.pending:
+    case actionStrings.patchProfile2 + actionStrings.pending:
       return {
         ...prevState,
         isLoading: true,
         isError: false,
       };
-    case actionStrings.patchProfile + actionStrings.rejected:
+    case actionStrings.patchProfile2 + actionStrings.rejected:
       const errorResponse = action.payload;
       const errorMessage = errorResponse.data.msg;
       return {
@@ -24,7 +24,7 @@ const profileReducer = (prevState = initialState, action) => {
         isLoading: false,
         err: errorMessage,
       };
-    case actionStrings.patchProfile + actionStrings.fulfilled:
+    case actionStrings.patchProfile2 + actionStrings.fulfilled:
       const response = action.payload;
       const result = response.data.result;
       return {
@@ -37,4 +37,4 @@ const profileReducer = (prevState = initialState, action) => {
   }
 };
 
-export default profileReducer;
+export default profileReducer2;

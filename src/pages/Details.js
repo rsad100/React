@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/Details.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import { connect } from "react-redux";
 
 import trash from "../assets/trash.png";
 import arrowRight from "../assets/arrow-right-2.png";
@@ -21,7 +22,12 @@ class Detailss extends Component {
     // console.log(this.id);
     this.state = {
       products: [],
+      button1: "section-3-circle",
+      button2: "section-3-circle-2",
+      button3: "section-3-circle-2",
       display: "block",
+      size: "Regular",
+      multiplier: 1,
     };
   }
 
@@ -46,6 +52,7 @@ class Detailss extends Component {
     this.data = this.state.products.find((item) => item.id_product === this.id);
     // console.log(this.state.products);
     // console.log(this.id);
+    // console.log(this.props.counter.number);
     return (
       <Fragment>
         <main>
@@ -80,7 +87,6 @@ class Detailss extends Component {
                   alt="trash"
                 />
               </div>
-
               <aside>
                 <h1 className={styles["aside-right-header"]}>
                   {this.data?.name_product}
@@ -135,10 +141,35 @@ class Detailss extends Component {
                 <div className={styles["aside-right-div-1"]}>
                   <Counter />
                   <p className={styles["aside-right-text-3"]}>
-                    IDR {this.data?.price}
+                    IDR {this.data?.price * this.state.multiplier}
                   </p>
                 </div>
-                <div className={styles["aside-right-div-6"]}>Add to Cart</div>
+                <button
+                  className={styles["aside-right-div-6"]}
+                  onClick={() => {
+                    localStorage.setItem(
+                      "name_product",
+                      this.data?.name_product
+                    );
+                    localStorage.setItem(
+                      "image_product",
+                      `https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`
+                    );
+                    localStorage.setItem(
+                      "amount_product",
+                      this.props.counter.number
+                    );
+                    localStorage.setItem(
+                      "price_product",
+                      this.data?.price * this.state.multiplier
+                    );
+                    localStorage.setItem("id_product", this.id);
+                    localStorage.setItem("size_product", this.state.size);
+                    window.location.reload();
+                  }}
+                >
+                  Add to Cart
+                </button>
                 {this.info?.role === "admin" ? (
                   <div
                     className={styles["aside-right-div-7"]}
@@ -158,24 +189,65 @@ class Detailss extends Component {
                 <div className={styles["section-3-div-1"]}>
                   <h1 className={styles["section-3-text-1"]}>Choose a size</h1>
                   <div className={styles["section-3-div-2"]}>
-                    <div className={styles["section-3-circle"]}>R</div>
-                    <div className={styles["section-3-circle"]}>L</div>
-                    <div className={styles["section-3-circle"]}>XL</div>
+                    <button
+                      className={styles[this.state.button1]}
+                      onClick={() => {
+                        this.setState({
+                          button1: "section-3-circle",
+                          button2: "section-3-circle-2",
+                          button3: "section-3-circle-2",
+                          size: "Regular",
+                          multiplier: 1,
+                        });
+                      }}
+                    >
+                      R
+                    </button>
+                    <button
+                      className={styles[this.state.button2]}
+                      onClick={() => {
+                        this.setState({
+                          button1: "section-3-circle-2",
+                          button2: "section-3-circle",
+                          button3: "section-3-circle-2",
+                          size: "Large",
+                          multiplier: 1.2,
+                        });
+                      }}
+                    >
+                      L
+                    </button>
+                    <button
+                      className={styles[this.state.button3]}
+                      onClick={() => {
+                        this.setState({
+                          button1: "section-3-circle-2",
+                          button2: "section-3-circle-2",
+                          button3: "section-3-circle",
+                          size: "Extra Large",
+                          multiplier: 1.5,
+                        });
+                      }}
+                    >
+                      XL
+                    </button>
                   </div>
                 </div>
                 <div className={styles["section-3-div-3"]}>
                   <div className={styles["section-3-div-5"]}>
                     <img
                       className={styles["section-3-img"]}
-                      src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
+                      src={localStorage.getItem("image_product")}
                       alt="img"
                     />
                     <div>
                       <h1 className={styles["section-3-header-1"]}>
-                        COLD BREW
+                        {localStorage.getItem("name_product")}
                       </h1>
-                      <p className={styles["section-3-text-2"]}>x1 (Large)</p>
-                      <p className={styles["section-3-text-2"]}>x1 (Regular)</p>
+                      <p className={styles["section-3-text-2"]}>
+                        x{localStorage.getItem("amount_product")} (
+                        {localStorage.getItem("size_product")})
+                      </p>
                     </div>
                   </div>
                   <div className={styles["section-3-div-4"]}>
@@ -203,7 +275,15 @@ class Detailss extends Component {
     );
   }
 }
+const mapStateToProps = (reduxState) => {
+  return {
+    counter: reduxState.counter,
+    books: reduxState.books,
+  };
+};
 
-const Details = withRouteParams(withSearchParams(withNavigate(Detailss)));
+const Details = connect(mapStateToProps)(
+  withRouteParams(withSearchParams(withNavigate(Detailss)))
+);
 
 export default Details;

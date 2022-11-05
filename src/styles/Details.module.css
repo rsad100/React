@@ -271,6 +271,7 @@
 }
 
 .aside-right-div-6 {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -347,6 +348,7 @@
 }
 
 .section-3-circle {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -358,6 +360,21 @@
   font-size: 30px;
   line-height: 45px;
   color: black;
+}
+
+.section-3-circle-2 {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  background-color: #bababa59;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 45px;
+  color: #4f5665;
 }
 
 .section-3-img {

@@ -12,6 +12,7 @@ import Nav from "../components/Nav";
 import withNavigate from "../helpers/withNavigate";
 
 import profileActions from "../redux/actions/profile";
+import profileActions2 from "../redux/actions/profile2";
 
 class Profiles extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Profiles extends Component {
     this.state = {
       userData: [],
       user: [],
-      email: "",
+      email: undefined,
       address: undefined,
       mobile: undefined,
       display: undefined,
@@ -38,11 +39,11 @@ class Profiles extends Component {
 
   componentDidMount() {
     document.title = "Profile";
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
-    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users`;
     const token = localStorage.getItem("token");
     const info = jwt(token);
     this.id = info.user_id;
+
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
     console.log(this.id);
     Axios.get(url)
       .then((res) => {
@@ -52,6 +53,8 @@ class Profiles extends Component {
         // console.log(res.data.result);
       })
       .catch((err) => console.log(err));
+
+    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users`;
     Axios.get(url2)
       .then((res) => {
         this.setState({
@@ -60,7 +63,7 @@ class Profiles extends Component {
         // console.log(res.data.result);
       })
       .catch((err) => console.log(err));
-    console.log(this.state.userData);
+    // console.log(this.state.userData);
   }
 
   handleFile(event) {
@@ -93,6 +96,7 @@ class Profiles extends Component {
     // console.log(this.data);
     const id = Number(window.location.href.split("/")[4]);
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata/${id}`;
+    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${id}`;
     // const url = `https://intermedietebackend.vercel.app/api/v1/userdata/:${this.id}?`;
     const old_data = {
       address: this.data?.address,
@@ -113,13 +117,22 @@ class Profiles extends Component {
       gender: this.state.gender,
     };
     const body = { ...old_data, ...new_data };
-    // console.log(body);
-    // Axios.patch(url, body)
+    const old_Data2 = {
+      email: this.data2?.email,
+      phone_number: this.data2?.phone_number,
+    };
+    const new_data2 = {
+      email: this.state.email,
+      phone_number: this.state.mobile,
+    };
+    const body2 = { ...old_Data2, ...new_data2 };
+    // Axios.patch(url2, body2)
     //   .then((res) => {
     //     console.log(res);
     //   })
     //   .catch((err) => console.log(err));
     this.props.dispatch(profileActions.patchProfileAction(url, body));
+    this.props.dispatch(profileActions2.patchProfileAction2(url2, body2));
     // window.location.reload();
   }
 
@@ -168,14 +181,14 @@ class Profiles extends Component {
                       </div>
                     </div>
                     <div className={styles["aside-center-btn-768-1"]}>
-                      <input
+                      {/* <input
                         type="file"
                         name="file"
                         onChange={(event) => {
                           this.handleFile(event);
                           // console.log(event);
                         }}
-                      />
+                      /> */}
                       <div
                         className={`${styles["btn-orange"]} ${styles["size-1"]} ${styles["margin-1"]}`}
                       >
