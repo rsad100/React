@@ -12,18 +12,27 @@ import instagram from "../assets/instagram-vector.png";
 import withNavigate from "../helpers/withNavigate";
 
 class Logins extends Component {
-  componentDidMount() {
-    document.title = "Login";
-  }
-
   constructor(props) {
     super(props);
     this.state = {
+      hidden: true,
       email: "",
       password: "",
     };
+    this.toggleShow = this.toggleShow.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  toggleShow() {
+    this.setState({ hidden: !this.state.hidden });
+  }
+
+  componentDidMount() {
+    if (this.props.password) {
+      this.setState({ password: this.props.password });
+    }
+    document.title = "Login";
   }
 
   handleChange(event, field) {
@@ -92,20 +101,26 @@ class Logins extends Component {
                   <label className={styles["label"]}>Password :</label>
                   <input
                     className={styles["input"]}
-                    type="password"
+                    type={this.state.hidden ? "password" : "text"}
                     placeholder="Enter your password"
                     value={this.state.password}
                     onChange={(event) => this.handleChange(event, "password")}
                   />
                 </div>
-                <p
-                  className={styles["forgot-pass"]}
-                  onClick={() => {
-                    this.props.navigate("/forgot");
-                  }}
-                >
-                  Forgot password?
-                </p>
+                <div className={styles["password"]}>
+                  <p
+                    className={styles["forgot-pass"]}
+                    onClick={() => {
+                      this.props.navigate("/forgot");
+                    }}
+                  >
+                    Forgot password?
+                  </p>
+                  <div className={styles["show-password"]}>
+                    <input type="checkbox" onClick={this.toggleShow}></input>
+                    <p className={styles["forgot-pass"]}>Show Password</p>
+                  </div>
+                </div>
                 <button
                   className={`${styles["btn"]} ${styles["primary"]}`}
                   type="submit"

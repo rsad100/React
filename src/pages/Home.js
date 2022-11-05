@@ -37,7 +37,12 @@ class Home extends Component {
         <body>
           <main className={styles["container-fluid"]}>
             <section className={styles["row"]}>
-              <Nav />
+              <Nav
+                home="nav-text-2"
+                product="nav-text"
+                your="nav-text"
+                history="nav-text"
+              />
             </section>
             <section className={styles["row"]}>
               <div className={`${styles["section-2"]} ${styles["col-sm"]}`}>

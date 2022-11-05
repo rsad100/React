@@ -29,8 +29,19 @@
   column-count: 2;
 }
 
+.show-password {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.password {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .forgot-pass {
-  margin-right: 45%;
   color: #6a4029;
   font-weight: 700;
   font-size: 20px;

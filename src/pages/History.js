@@ -16,7 +16,12 @@ class History extends Component {
     return (
       <Fragment>
         <main>
-          <Nav />
+          <Nav
+            home="nav-text"
+            product="nav-text"
+            your="nav-text"
+            history="nav-text-2"
+          />
           <section className={styles["section-center"]}>
             <h1 className={styles["section-center-header"]}>
               Let's see what you have bought!

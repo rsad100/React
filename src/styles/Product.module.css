@@ -44,6 +44,7 @@
 }
 
 .item {
+  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -105,6 +106,7 @@
   padding-left: 54px;
   padding-right: 49px;
   padding-top: 29px;
+  padding-bottom: 183px;
 }
 
 .aside-left-header {
@@ -136,7 +138,6 @@
 
 .btn-green {
   display: flex;
-  justify-content: center;
   align-items: center;
   background-color: #88b788;
   border-radius: 20px;
@@ -148,7 +149,6 @@
 
 .btn-yellow {
   display: flex;
-  justify-content: center;
   align-items: center;
   background-color: #f5c361;
   border-radius: 20px;
@@ -160,7 +160,6 @@
 
 .btn-brown {
   display: flex;
-  justify-content: center;
   align-items: center;
   background-color: #c59378;
   border-radius: 20px;
@@ -222,6 +221,7 @@
 }
 
 .term-text {
+  cursor: pointer;
   text-align: center;
   color: #9f9f9f;
   font-weight: 400;
@@ -229,11 +229,15 @@
 }
 
 .term-text-2 {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 12px;
+  cursor: pointer;
   text-align: center;
   color: #6a4029;
-  text-decoration: underline #6a4029 3px;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 20px;
+  border-bottom: 3px solid #6a4029;
 }
 
 .center-disclaimer {
@@ -250,8 +254,53 @@
 }
 
 .header-term {
-  margin-top: 92px;
-  margin-bottom: 71px;
+  margin-top: 77px;
+  margin-bottom: 45px;
+}
+
+.header-term-header {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14.22px;
+}
+
+.header-term-text {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.22px;
+}
+
+.header-edit {
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  text-decoration-line: underline;
+  color: #6a4029;
+}
+
+.header-edit-2 {
+  cursor: pointer;
+  padding-left: 116px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  text-decoration-line: underline;
+  color: #6a4029;
+}
+
+.header-edit-3 {
+  cursor: pointer;
+  padding-left: 116px;
+  margin-bottom: 20px;
+  margin-bottom: 111px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  text-decoration-line: underline;
+  color: #6a4029;
 }
 
 .nav-header-image-margin {

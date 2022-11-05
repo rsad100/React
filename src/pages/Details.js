@@ -1,26 +1,37 @@
 import React, { Component, Fragment } from "react";
 import styles from "../styles/Details.module.css";
 import Axios from "axios";
+import jwt from "jwt-decode";
 
+import trash from "../assets/trash.png";
 import arrowRight from "../assets/arrow-right-2.png";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
+import Counter from "../components/Counter.js";
+
 import withNavigate from "../helpers/withNavigate";
 import withSearchParams from "../helpers/withSearchParams";
+import withRouteParams from "../helpers/withSearchParams";
 
 class Detailss extends Component {
   constructor(props) {
     super(props);
-    let params = new URL(document.location).searchParams;
-    this.id = Number(params.get("id"));
+    this.id = Number(window.location.href.split("/")[4]);
+    // console.log(this.id);
     this.state = {
       products: [],
+      display: "block",
     };
   }
 
   componentDidMount() {
     document.title = "Product Detail";
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.info = jwt(token);
+    }
+
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/`;
     Axios.get(url)
       .then((res) => {
@@ -38,7 +49,12 @@ class Detailss extends Component {
     return (
       <Fragment>
         <main>
-          <Nav />
+          <Nav
+            home="nav-text"
+            product="nav-text"
+            your="nav-text"
+            history="nav-text"
+          />
           <section className={styles["section-center-main"]}>
             <section className={styles["section-center-1"]}>
               <p>Favorite & Promo</p>
@@ -47,11 +63,24 @@ class Detailss extends Component {
               </p>
             </section>
             <section className={styles["section-center-2"]}>
-              <img
-                className={styles["aside-left-img"]}
-                src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
-                alt="img"
-              />
+              <div className={styles["img-div"]}>
+                <img
+                  className={styles["aside-left-img"]}
+                  src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
+                  alt="img"
+                />
+                <img
+                  style={
+                    this.info?.role === "admin"
+                      ? { display: "block" }
+                      : { display: "none" }
+                  }
+                  className={styles["trash"]}
+                  src={trash}
+                  alt="trash"
+                />
+              </div>
+
               <aside>
                 <h1 className={styles["aside-right-header"]}>
                   {this.data?.name_product}
@@ -104,17 +133,24 @@ class Detailss extends Component {
               </aside>
               <aside className={styles["section-3-aside-right"]}>
                 <div className={styles["aside-right-div-1"]}>
-                  <div className={styles["aside-right-div-2"]}>
-                    <div className={styles["aside-right-div-3"]}>-</div>
-                    <div className={styles["aside-right-div-4"]}>2</div>
-                    <div className={styles["aside-right-div-5"]}>+</div>
-                  </div>
+                  <Counter />
                   <p className={styles["aside-right-text-3"]}>
-                    {this.data?.price}
+                    IDR {this.data?.price}
                   </p>
                 </div>
                 <div className={styles["aside-right-div-6"]}>Add to Cart</div>
-                <div className={styles["aside-right-div-7"]}>Ask a Staff</div>
+                {this.info?.role === "admin" ? (
+                  <div
+                    className={styles["aside-right-div-7"]}
+                    onClick={() => {
+                      this.props.navigate(`/EditProduct/${this.id}`);
+                    }}
+                  >
+                    Edit Product
+                  </div>
+                ) : (
+                  <div className={styles["aside-right-div-7"]}>Ask a Staff</div>
+                )}
               </aside>
             </section>
             <section className={styles["section-3-res"]}>
@@ -168,6 +204,6 @@ class Detailss extends Component {
   }
 }
 
-const Details = withSearchParams(withNavigate(Detailss));
+const Details = withRouteParams(withSearchParams(withNavigate(Detailss)));
 
 export default Details;

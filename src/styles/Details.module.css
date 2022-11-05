@@ -27,11 +27,29 @@
   width: 100%;
 }
 
+.img-div {
+  position: relative;
+}
+
 .aside-left-img {
   width: 308px;
   height: 313px;
   border-radius: 50%;
   margin-bottom: 102px;
+}
+
+.trash {
+  top: 55%;
+  right: 5%;
+  position: absolute;
+  background-color: #6a4029;
+  padding-left: 18px;
+  padding-right: 19px;
+  padding-top: 16px;
+  padding-bottom: 17px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .aside-left-div-1 {

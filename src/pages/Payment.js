@@ -21,7 +21,12 @@ class Payment extends Component {
       <Fragment>
         <body>
           <main className={styles["main"]}>
-            <Nav />
+            <Nav
+              home="nav-text"
+              product="nav-text"
+              your="nav-text-2"
+              history="nav-text"
+            />
             <section className={styles["section-center"]}>
               <nav className={styles["nav"]}>
                 <div className={styles["nav-image-div-1"]}>
