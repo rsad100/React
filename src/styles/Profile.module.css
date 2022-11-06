@@ -22,20 +22,14 @@
 }
 
 .nav-text {
-  margin-left: 5px;
-  margin-right: 5px;
   cursor: pointer;
-  margin: 0 0 0 40px;
   color: #4f5665;
   font-weight: 400;
   font-size: 16px;
 }
 
 .nav-text-2 {
-  margin-left: 5px;
-  margin-right: 5px;
   cursor: pointer;
-  margin: 0 0 0 40px;
   color: #6a4029;
   font-weight: 700;
   font-size: 16px;
@@ -43,6 +37,7 @@
 
 .nav-bar-middle {
   display: flex;
+  column-gap: 42px;
 }
 
 .nav-image-right-padding {
@@ -180,6 +175,10 @@
   margin: 0px;
   font-weight: 700;
   font-size: 25px;
+}
+
+.none {
+  display: none;
 }
 
 .left-aside-header {
@@ -517,7 +516,8 @@
     margin-left: 5%;
     margin-right: 5%;
     height: 150px;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
   }
 
   .nav-image-right-padding {

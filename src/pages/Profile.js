@@ -73,10 +73,17 @@ class Profiles extends Component {
     let formdata = new FormData();
     formdata.append("image_user", file);
     const data = formdata;
+    console.log(file.name);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata/${id}`;
-    Axios.patch(url, data)
+    Axios.patch(url, data, config)
       .then((res) => {
         console.log(res);
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   }
@@ -168,8 +175,8 @@ class Profiles extends Component {
                     <div className={styles["aside-center-header-768"]}>
                       <img
                         className={styles["profile-picture"]}
-                        src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_user}`}
-                        alt="profile-background"
+                        src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
+                        alt="profile-img"
                       />
                       <div>
                         <p className={styles["left-aside-header"]}>
@@ -181,19 +188,22 @@ class Profiles extends Component {
                       </div>
                     </div>
                     <div className={styles["aside-center-btn-768-1"]}>
-                      {/* <input
+                      <input
                         type="file"
                         name="file"
+                        id="upload"
+                        className={styles["none"]}
                         onChange={(event) => {
                           this.handleFile(event);
                           // console.log(event);
                         }}
-                      /> */}
-                      <div
+                      />
+                      <label
+                        for="upload"
                         className={`${styles["btn-orange"]} ${styles["size-1"]} ${styles["margin-1"]}`}
                       >
                         <p className={styles["btn-text-1"]}>Choose photo</p>
-                      </div>
+                      </label>
                       <div
                         className={`${styles["btn-brown"]} ${styles["size-1"]} ${styles["margin-2"]}`}
                       >

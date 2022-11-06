@@ -10,6 +10,7 @@ import CardProduct from "../components/CardProduct";
 import CardPromo from "../components/CardPromo";
 
 import productActions from "../redux/actions/products";
+import withNavigate from "../helpers/withNavigate";
 
 class Product extends Component {
   constructor(props) {
@@ -265,6 +266,9 @@ class Product extends Component {
                 <h1
                   style={{ display: this.state.display }}
                   className={styles["header-edit-3"]}
+                  onClick={() => {
+                    this.props.navigate("/NewProduct");
+                  }}
                 >
                   Add new product
                 </h1>
@@ -284,4 +288,4 @@ const mapStateToProps = (reduxState) => {
   };
 };
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps)(withNavigate(Product));

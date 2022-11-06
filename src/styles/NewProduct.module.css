@@ -39,12 +39,25 @@
 .aside-left-img {
   align-self: center;
   width: 300px;
-  height: auto;
+  height: 300px;
   background-color: rgba(186, 186, 186, 0.35);
   padding-left: 105px;
   padding-right: 105px;
   padding-top: 108px;
   padding-bottom: 109px;
+  border-radius: 50%;
+  margin-bottom: 34px;
+}
+
+.none {
+  display: none;
+}
+
+.aside-left-img-2 {
+  align-self: center;
+  width: 300px;
+  height: 300px;
+  background-color: rgba(186, 186, 186, 0.35);
   border-radius: 50%;
   margin-bottom: 34px;
 }
@@ -158,12 +171,15 @@
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
+/* .dropdown:hover .dropbtn {
   background-color: #3e8e41;
-}
+} */
 
 .aside-right {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 .aside-right-header-1 {
@@ -192,14 +208,20 @@
   color: #9f9f9f;
 }
 
+.aside-right-div {
+  width: 100%;
+  height: 100%;
+  align-self: flex-end;
+}
+
 .btn-size-1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
+  width: auto;
   height: auto;
   background-color: #ffba33;
-  border-radius: 50%;
+  border-radius: 20px;
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 13px;
@@ -208,6 +230,25 @@
   font-size: 30px;
   line-height: 45px;
   color: black;
+  border: none;
+}
+
+.btn-size-1-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+  background-color: #bababa59;
+  border-radius: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 13px;
+  padding-bottom: 12px;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 45px;
+  color: 4f5665;
   border: none;
 }
 
@@ -294,4 +335,49 @@
   font-weight: 700;
   font-size: 25px;
   border: none;
+}
+
+@media (max-width: 768px) {
+  .section-main {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 30px;
+  }
+
+  .section-1 {
+    margin-bottom: 20px;
+  }
+
+  .section-2 {
+    flex-direction: column;
+  }
+
+  .aside-left-button-2 {
+    margin-bottom: 20px;
+  }
+
+  .aside-left-header-1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .aside-left-header-2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .aside-right-input-1 {
+    width: 100%;
+  }
+
+  .section-3 {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .btn-save {
+    margin-top: 20px;
+  }
 }

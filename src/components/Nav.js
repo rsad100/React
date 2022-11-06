@@ -130,8 +130,8 @@ class Navigate extends Component {
               onClick={() => {
                 this.props.navigate(`/profile/${this.id}`);
               }}
-              src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_user}`}
-              alt="granny-read-book"
+              src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
+              alt="profile-img"
             />
           </section>
         )}

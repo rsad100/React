@@ -3,8 +3,6 @@ import styles from "../styles/History.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
 
-import veggie from "../assets/image 2.png";
-
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import CardHistory from "../components/CardHistory";
@@ -39,10 +37,10 @@ class History extends Component {
   }
 
   render() {
-    this.data = this.state.transactions.find(
+    this.data = this.state.transactions.filter(
       (item) => item.id_user === this.id
     );
-    console.log(this.id);
+    console.log(this.data);
     return (
       <Fragment>
         <main>
@@ -61,12 +59,17 @@ class History extends Component {
             </p>
             <p className={styles["section-center-text"]}>Select All</p>
             <section className={styles["section-center-2"]}>
-              <CardHistory
-                img={veggie}
-                name="Veggie tomato mix"
-                price="IDR 34.000"
-                status="Delivered"
-              />
+              {this.data?.map((transaction) => {
+                return (
+                  <CardHistory
+                    amount={transaction.amount}
+                    img={transaction.image_product}
+                    name={transaction.name_product}
+                    price={`IDR ${transaction.price * transaction.amount}`}
+                    status="Pending"
+                  />
+                );
+              })}
             </section>
           </section>
           <Footer />

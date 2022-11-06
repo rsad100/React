@@ -18,7 +18,13 @@ class EditProducts extends Component {
     // console.log(this.id);
     this.state = {
       products: [],
+      file: undefined,
+      image: undefined,
+      name: undefined,
+      price: undefined,
+      desc: undefined,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -37,10 +43,59 @@ class EditProducts extends Component {
       .catch((err) => console.log(err));
   }
 
+  handleChange(event, field) {
+    this.setState({ [field]: event.target.value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.id = Number(window.location.href.split("/")[4]);
+    const url = `http://localhost:8080/api/v1/products/${this.id}`;
+    let formdata = new FormData();
+    // console.log(this.state.name);
+    if (this.state.file) {
+      formdata.append("image_product", this.state.file);
+    }
+    if (this.state.name) {
+      formdata.append("name_product", this.state.name);
+    }
+    if (this.state.price) {
+      formdata.append("price", this.state.price);
+    }
+    if (this.state.desc) {
+      formdata.append("desc_product", this.state.desc);
+    }
+
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
+
+    const body = formdata;
+    Axios.patch(url, body)
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  handleFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.setState({
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+    this.setState({
+      file: event.target.files[0],
+    });
+  }
+
   render() {
     this.data = this.state.products.find((item) => item.id_product === this.id);
     // console.log(this.state.products);
-    // console.log(this.id);
+    // console.log(this.state.name);
     return (
       <Fragment>
         <main>
@@ -59,11 +114,27 @@ class EditProducts extends Component {
             </div>
             <div className={styles["section-2"]}>
               <aside>
-                <img
-                  className={styles["product"]}
-                  src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`}
-                  alt="trash"
+                <input
+                  type="file"
+                  name="file"
+                  id="upload"
+                  className={styles["none"]}
+                  onChange={(event) => {
+                    this.handleFile(event);
+                  }}
                 />
+                <label for="upload">
+                  <img
+                    className={styles["product"]}
+                    src={
+                      this.state.image === undefined
+                        ? `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_product}`
+                        : this.state.image
+                    }
+                    alt="trash"
+                  />
+                </label>
+
                 <div className={styles["aside-left-text-3"]}>
                   <p className={styles["aside-left-text-1"]}>
                     Delivery only on
@@ -76,17 +147,36 @@ class EditProducts extends Component {
                 </div>
               </aside>
               <aside className={styles["aside-right"]}>
-                <h1 className={styles["aside-right-header"]}>
+                <input
+                  type="text"
+                  placeholder={this.data?.name_product}
+                  className={styles["aside-right-header"]}
+                  value={this.state.name}
+                  onChange={(event) => this.handleChange(event, "name")}
+                />
+                {/* <h1 className={styles["aside-right-header"]}>
                   {this.data?.name_product}
-                </h1>
+                </h1> */}
                 <div className={styles["line"]}></div>
+
                 <p className={styles["aside-right-text-1"]}>
-                  IDR {this.data?.price}
+                  IDR{" "}
+                  <input
+                    type="text"
+                    placeholder={this.data?.price}
+                    className={styles["aside-right-text-1"]}
+                    value={this.state.price}
+                    onChange={(event) => this.handleChange(event, "price")}
+                  />
                 </p>
                 <div className={styles["line"]}></div>
-                <p className={styles["aside-right-text-2"]}>
-                  {this.data?.desc_product}
-                </p>
+                <input
+                  type="text"
+                  placeholder={this.data?.desc_product}
+                  className={styles["aside-right-text-2"]}
+                  value={this.state.desc}
+                  onChange={(event) => this.handleChange(event, "desc")}
+                />
                 <div className={styles["line-2"]}></div>
                 <div className={styles["dropdown"]}>
                   <button className={styles["dropbtn"]}>
@@ -105,14 +195,14 @@ class EditProducts extends Component {
                     </div>
                   </button>
                   <div className={styles["dropdown-content"]}>
+                    {/* <p>test</p>
                     <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
+                    <p>test</p> */}
                   </div>
                 </div>
                 <div className={styles["dropdown"]}>
                   <button className={styles["dropbtn"]}>
-                    <p>Select Size</p>
+                    <p>Select Delivery Methods</p>
                     <div>
                       <img
                         className={styles["chevron-left"]}
@@ -127,9 +217,9 @@ class EditProducts extends Component {
                     </div>
                   </button>
                   <div className={styles["dropdown-content"]}>
+                    {/* <p>test</p>
                     <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
+                    <p>test</p> */}
                   </div>
                 </div>
                 <div className={styles["section-3"]}>
@@ -142,9 +232,14 @@ class EditProducts extends Component {
                     Add to Cart
                   </button>
                 </div>
-                <button className={styles["aside-right-button-2"]}>
-                  Save Change
-                </button>
+                <form onSubmit={this.handleSubmit}>
+                  <button
+                    type="submit"
+                    className={styles["aside-right-button-2"]}
+                  >
+                    Save Change
+                  </button>
+                </form>
               </aside>
             </div>
           </section>

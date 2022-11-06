@@ -1,6 +1,7 @@
 .section-center {
   background-image: url("../assets/history-background.png");
-  background-repeat: round;
+  /* background-repeat: round; */
+  background-size: cover;
   padding-top: 107px;
   padding-left: 10%;
   padding-right: 10%;
@@ -13,6 +14,12 @@
   font-size: 40px;
   line-height: 47.4px;
   color: #ffffff;
+}
+
+.card-div-top {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
 }
 
 .section-center-header-text {
