@@ -50,7 +50,7 @@ class EditProducts extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.id = Number(window.location.href.split("/")[4]);
-    const url = `http://localhost:8080/api/v1/products/${this.id}`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/${this.id}`;
     let formdata = new FormData();
     // console.log(this.state.name);
     if (this.state.file) {

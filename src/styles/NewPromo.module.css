@@ -49,6 +49,19 @@
   margin-bottom: 34px;
 }
 
+.none {
+  display: none;
+}
+
+.aside-left-img-2 {
+  align-self: center;
+  width: 300px;
+  height: 300px;
+  background-color: rgba(186, 186, 186, 0.35);
+  border-radius: 50%;
+  margin-bottom: 34px;
+}
+
 .aside-left-button-1 {
   display: flex;
   width: 100%;
@@ -132,7 +145,7 @@
   line-height: 138.84%;
   letter-spacing: 0.03em;
   border: none;
-  cursor: pointer;
+  /* cursor: pointer; */
   width: 100%;
   border: 1px solid #9f9f9f;
   border-radius: 10px;
@@ -166,10 +179,10 @@
   display: block;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
+/* Change the background color of the dropdown button when the dropdown content is shown
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
-}
+} */
 
 .aside-right {
   width: 100%;
@@ -190,7 +203,7 @@
   padding-top: 26px;
   padding-bottom: 26px;
   padding-left: 27px;
-  width: 594px;
+  width: 100%;
   margin-bottom: 35px;
 }
 
@@ -309,4 +322,53 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
+}
+
+@media (max-width: 768px) {
+  .section-main {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 30px;
+  }
+
+  .section-1 {
+    margin-bottom: 20px;
+  }
+
+  .section-2 {
+    flex-direction: column;
+  }
+
+  .aside-left-button-2 {
+    margin-bottom: 20px;
+  }
+
+  .aside-left-header-1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .aside-left-header-2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .aside-right-input-1 {
+    width: 100%;
+  }
+
+  .section-3 {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .btn-save {
+    margin-top: 20px;
+  }
+
+  .btns {
+    margin-top: 20px;
+  }
 }

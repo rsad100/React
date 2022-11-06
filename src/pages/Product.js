@@ -142,6 +142,9 @@ class Product extends Component {
                 <h1
                   style={{ display: this.state.display }}
                   className={styles["header-edit"]}
+                  onClick={() => {
+                    this.props.navigate("/NewPromo");
+                  }}
                 >
                   Add new promo
                 </h1>
