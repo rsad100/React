@@ -24,8 +24,12 @@ class Product extends Component {
       categoryNon: "term-text",
       categoryAdd: "term-text",
       searchValue: "",
-      filter: "Coffee",
+      filter: "filter=Coffee",
       display: "block",
+      sort: "&sort=cheap",
+      limit: "&limit=12",
+      page: "&page=1",
+      // number: 1,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,16 +40,18 @@ class Product extends Component {
   }
 
   handleSubmit(event) {
-    const url3 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=${this.state.filter}&keyword=${this.state.searchValue}`;
-    Axios.get(url3)
-      .then((res) => {
-        this.setState({
-          products: res.data.result,
-        });
-        console.log(res.data.result);
-      })
-      .catch((err) => console.log(err));
     event.preventDefault();
+    const url3 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?${this.state.filter}&keyword=${this.state.searchValue}${this.state.sort}`;
+    this.props.dispatch(productActions.getProductAction(url3));
+    // Axios.get(url3)
+    //   .then((res) => {
+    //     this.setState({
+    //       products: res.data.result,
+    //     });
+    //     console.log(res.data.result);
+    //   })
+    //   .catch((err) => console.log(err));
+    // console.log("lol");
   }
 
   componentDidMount() {
@@ -60,7 +66,7 @@ class Product extends Component {
     }
 
     // console.log(this.info.role);
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee${this.state.sort}${this.state.limit}${this.state.page}`;
     this.props.dispatch(productActions.getProductAction(url));
     const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/`;
     Axios.get(url2)
@@ -74,7 +80,7 @@ class Product extends Component {
   }
 
   render() {
-    console.log(this.props.products.data);
+    console.log(this.state.searchValue);
     return (
       <body>
         <main className={styles["main"]}>
@@ -103,6 +109,7 @@ class Product extends Component {
                         img={promos.image_promo}
                         header={promos.name_promo}
                         desc={`${promos.desc_promo}`}
+                        keys={promos.id_promo}
                       />
                     );
                   })}
@@ -154,18 +161,18 @@ class Product extends Component {
                   <div className={styles[this.state.categoryFav]}>
                     <p
                       onClick={() => {
-                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Fav`;
-                        this.props.dispatch(
-                          productActions.getProductAction(url)
-                        );
+                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Fav${this.state.sort}${this.state.limit}${this.state.page}`;
                         this.setState({
                           categoryFav: "term-text-2",
                           categoryFoods: "term-text",
                           categoryCoffee: "term-text",
                           categoryNon: "term-text",
                           categoryAdd: "term-text",
-                          filter: "Fav",
+                          filter: "filter=Fav",
                         });
+                        this.props.dispatch(
+                          productActions.getProductAction(url)
+                        );
                       }}
                     >
                       Favorite & Promo
@@ -174,16 +181,16 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryCoffee]}
                     onClick={() => {
-                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee`;
-                      this.props.dispatch(productActions.getProductAction(url));
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Coffee${this.state.sort}${this.state.limit}${this.state.page}`;
                       this.setState({
                         categoryFav: "term-text",
                         categoryCoffee: "term-text-2",
                         categoryFoods: "term-text",
                         categoryNon: "term-text",
                         categoryAdd: "term-text",
-                        filter: "Coffee",
+                        filter: "filter=Coffee",
                       });
+                      this.props.dispatch(productActions.getProductAction(url));
                     }}
                   >
                     Coffee
@@ -191,7 +198,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryNon]}
                     onClick={() => {
-                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Non`;
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Non${this.state.sort}${this.state.limit}${this.state.page}`;
                       this.props.dispatch(productActions.getProductAction(url));
                       this.setState({
                         categoryFav: "term-text",
@@ -199,7 +206,7 @@ class Product extends Component {
                         categoryFoods: "term-text",
                         categoryNon: "term-text-2",
                         categoryAdd: "term-text",
-                        filter: "Non",
+                        filter: "filter=Non",
                       });
                     }}
                   >
@@ -208,7 +215,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryFoods]}
                     onClick={() => {
-                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Food`;
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Food${this.state.sort}${this.state.limit}${this.state.page}`;
                       this.props.dispatch(productActions.getProductAction(url));
                       this.setState({
                         categoryFav: "term-text",
@@ -216,7 +223,7 @@ class Product extends Component {
                         categoryFoods: "term-text-2",
                         categoryNon: "term-text",
                         categoryAdd: "term-text",
-                        filter: "Food",
+                        filter: "filter=Food",
                       });
                     }}
                   >
@@ -225,7 +232,7 @@ class Product extends Component {
                   <p
                     className={styles[this.state.categoryAdd]}
                     onClick={() => {
-                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Add`;
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?filter=Add${this.state.sort}${this.state.limit}${this.state.page}`;
                       this.props.dispatch(productActions.getProductAction(url));
                       this.setState({
                         categoryFav: "term-text",
@@ -233,12 +240,40 @@ class Product extends Component {
                         categoryFoods: "term-text",
                         categoryNon: "term-text",
                         categoryAdd: "term-text-2",
-                        filter: "Add",
+                        filter: "filter=Add",
                       });
                     }}
                   >
                     Add-on
                   </p>
+                </nav>
+                <nav className={styles["nav-2"]}>
+                  <div
+                    className={
+                      this.state.sort === "&sort=pricey"
+                        ? styles["nav-2-btn-2"]
+                        : styles["nav-2-btn-1"]
+                    }
+                    onClick={() => {
+                      this.setState({ sort: "&sort=pricey" });
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?${this.state.filter}&sort=pricey${this.state.limit}${this.state.page}`;
+                      this.props.dispatch(productActions.getProductAction(url));
+                    }}
+                  ></div>
+                  <p>Expensive</p>
+                  <div
+                    className={
+                      this.state.sort === "&sort=cheap"
+                        ? styles["nav-2-btn-2"]
+                        : styles["nav-2-btn-1"]
+                    }
+                    onClick={() => {
+                      this.setState({ sort: "&sort=cheap" });
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?${this.state.filter}&sort=cheap${this.state.limit}${this.state.page}`;
+                      this.props.dispatch(productActions.getProductAction(url));
+                    }}
+                  ></div>
+                  <p>Cheapest</p>
                 </nav>
                 <section className={styles["section-center-product"]}>
                   {this.props.products.isError && this.props.products.err}
@@ -257,6 +292,31 @@ class Product extends Component {
                       })
                     : "Loading"}
                 </section>
+                <div className={styles["page-div"]}>
+                  <div
+                    className={styles["page-btn"]}
+                    onClick={() => {
+                      // this.setState({
+                      //   page: `&page=1`,
+                      //   number: this.state.number + 1,
+                      // });
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}${this.props.products.previous}`;
+                      this.props.dispatch(productActions.getProductAction(url));
+                    }}
+                  >
+                    {"<"}
+                  </div>
+                  <div
+                    className={styles["page-btn"]}
+                    onClick={() => {
+                      const url = `${process.env.REACT_APP_BACKEND_HOST}${this.props.products.next}`;
+                      this.props.dispatch(productActions.getProductAction(url));
+                      // console.log(this.props.products.next);
+                    }}
+                  >
+                    {">"}
+                  </div>
+                </div>
                 <p className={styles["center-disclaimer"]}>
                   *the price has been cutted by discount appears
                 </p>

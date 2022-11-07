@@ -3,9 +3,10 @@ import styles from "../styles/EditPromo.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
 
-import spaghetti from "../assets/spaghetti.png";
-import chevronLeft from "../assets/line-left.png";
-import chevronRight from "../assets/line-right.png";
+// import photo from "../assets/photo.png";
+// import spaghetti from "../assets/spaghetti.png";
+// import chevronLeft from "../assets/line-left.png";
+// import chevronRight from "../assets/line-right.png";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
@@ -18,30 +19,102 @@ class EditPromos extends Component {
     let params = new URL(document.location).searchParams;
     this.id = Number(params.get("id"));
     this.state = {
-      products: [],
+      promos: [],
+      image: undefined,
+      file: "",
+      name: undefined,
+      price: undefined,
+      desc: undefined,
+      discount: undefined,
+      start: undefined,
+      end: undefined,
+      code: undefined,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    document.title = "Edit Product";
+    document.title = "Edit Promo";
 
     const token = localStorage.getItem("token");
     this.info = jwt(token);
+    this.id = Number(window.location.href.split("/")[4]);
 
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/`;
     Axios.get(url)
       .then((res) => {
         this.setState({
-          products: res.data.result,
+          promos: res.data.result,
         });
       })
       .catch((err) => console.log(err));
   }
 
+  handleFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.setState({
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+    // this.file = event.target.files[0];
+    this.setState({
+      file: event.target.files[0],
+    });
+    // console.log(this.state.file);
+    // console.log(file.name);
+  }
+
+  handleChange(event, field) {
+    this.setState({ [field]: event.target.value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.id = Number(window.location.href.split("/")[4]);
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/${this.id}`;
+    let formdata = new FormData();
+    // console.log(this.state.name);
+
+    if (this.state.file) {
+      formdata.append("image_promo", this.state.file);
+    }
+    if (this.state.name) {
+      formdata.append("name_promo", this.state.name);
+    }
+    if (this.state.price) {
+      formdata.append("normal_Price", this.state.price);
+    }
+    if (this.state.desc) {
+      formdata.append("desc_promo", this.state.desc);
+    }
+    if (this.state.discount) {
+      formdata.append("discount", this.state.discount);
+    }
+    if (this.state.start) {
+      formdata.append("start_date", this.state.start);
+    }
+    if (this.state.end) {
+      formdata.append("end_date", this.state.end);
+    }
+    if (this.state.code) {
+      formdata.append("code", this.state.code);
+    }
+
+    const body = formdata;
+    Axios.patch(url, body)
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  }
+
   render() {
-    this.data = this.state.products.find((item) => item.id_product === this.id);
+    this.data = this.state.promos.find((item) => item.id_promo === this.id);
+    // console.log(this.state.promos);
     // console.log(this.state.products);
     // console.log(this.id);
+    console.log(this.state.desc);
     return (
       <Fragment>
         <main>
@@ -55,15 +128,41 @@ class EditPromos extends Component {
             <div className={styles["section-1"]}>
               <div className={styles["section-1-div-1"]}>
                 <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
-                <p className={styles["section-1-text-2"]}>
-                  {">"} Add new promo
-                </p>
+                <p className={styles["section-1-text-2"]}>{">"} Edit promo</p>
               </div>
               <p className={styles["section-1-text-3"]}>cancel</p>
             </div>
             <div className={styles["section-2"]}>
               <aside className={styles["aside-left"]}>
-                <div className={styles["aside-left-coupon"]}>
+                {this.state.image === undefined ? (
+                  <img
+                    className={styles["aside-left-img-2"]}
+                    src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_promo}`}
+                    alt="img"
+                  />
+                ) : (
+                  <img
+                    className={styles["aside-left-img-2"]}
+                    src={this.state.image}
+                    alt="img"
+                  />
+                )}
+                <button className={styles["aside-left-button-1"]}>
+                  Take a picture
+                </button>
+                <input
+                  type="file"
+                  name="file"
+                  id="upload"
+                  className={styles["none"]}
+                  onChange={(event) => {
+                    this.handleFile(event);
+                  }}
+                />
+                <label for="upload" className={styles["aside-left-button-2"]}>
+                  Choose from gallery
+                </label>
+                {/* <div className={styles["aside-left-coupon"]}>
                   <div className={styles["coupon-div-1"]}>
                     <img
                       className={styles["coupon-img"]}
@@ -86,101 +185,49 @@ class EditPromos extends Component {
                       Valid until ocotober 10th 2020
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <h1 className={styles["aside-left-header-1"]}>
                   Enter the discount :
                 </h1>
                 <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Input discount</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
-                    </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
-                  </div>
+                  <input
+                    type="text"
+                    placeholder={this.data?.discount}
+                    className={styles["dropbtn"]}
+                    value={this.state.discount}
+                    onChange={(event) => this.handleChange(event, "discount")}
+                  />
                 </div>
                 <h1 className={styles["aside-left-header-2"]}>Expire date :</h1>
                 <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Select start date</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
-                    </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
-                  </div>
+                  <input
+                    type="text"
+                    placeholder={this.data?.start_date}
+                    className={styles["dropbtn"]}
+                    value={this.state.start}
+                    onChange={(event) => this.handleChange(event, "start")}
+                  />
                 </div>
                 <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Select end date</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
-                    </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
-                  </div>
+                  <input
+                    type="text"
+                    placeholder={this.data?.end_date}
+                    className={styles["dropbtn"]}
+                    value={this.state.end}
+                    onChange={(event) => this.handleChange(event, "end")}
+                  />
                 </div>
                 <h1 className={styles["aside-left-header-3"]}>
                   Input coupon code :
                 </h1>
                 <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Input stock</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
-                    </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    <p>test</p>
-                    <p>test</p>
-                    <p>test</p>
-                  </div>
+                  <input
+                    type="text"
+                    placeholder={this.data?.code}
+                    className={styles["dropbtn"]}
+                    value={this.state.code}
+                    onChange={(event) => this.handleChange(event, "code")}
+                  />
                 </div>
               </aside>
               <aside className={styles["aside-right"]}>
@@ -188,13 +235,17 @@ class EditPromos extends Component {
                 <input
                   className={styles["aside-right-input-1"]}
                   type={"text"}
-                  placeholder={"Type product name min.50 characters"}
+                  placeholder={this.data?.name_promo}
+                  value={this.state.name}
+                  onChange={(event) => this.handleChange(event, "name")}
                 ></input>
                 <h1 className={styles["aside-right-header-1"]}>Price :</h1>
                 <input
                   className={styles["aside-right-input-1"]}
                   type={"text"}
-                  placeholder={"Type the price"}
+                  placeholder={this.data?.normal_price}
+                  value={this.state.price}
+                  onChange={(event) => this.handleChange(event, "price")}
                 ></input>
                 <h1 className={styles["aside-right-header-1"]}>
                   Description :
@@ -202,9 +253,11 @@ class EditPromos extends Component {
                 <input
                   className={styles["aside-right-input-1"]}
                   type={"text"}
-                  placeholder={"Describe your product min.150 characters"}
+                  placeholder={this.data?.desc_promo}
+                  value={this.state.desc}
+                  onChange={(event) => this.handleChange(event, "desc")}
                 ></input>
-                <h1 className={styles["aside-right-header-1"]}>
+                {/* <h1 className={styles["aside-right-header-1"]}>
                   Input product size :
                 </h1>
                 <p className={styles["aside-right-text-1"]}>
@@ -217,8 +270,8 @@ class EditPromos extends Component {
                   <button className={styles["btn-size-2"]}>250 gr</button>
                   <button className={styles["btn-size-2"]}>300 gr</button>
                   <button className={styles["btn-size-2"]}>500 gr</button>
-                </div>
-                <h1 className={styles["aside-right-header-1"]}>
+                </div> */}
+                {/* <h1 className={styles["aside-right-header-1"]}>
                   Input delivery methods :
                 </h1>
                 <p className={styles["aside-right-text-1"]}>
@@ -234,10 +287,14 @@ class EditPromos extends Component {
                   <button className={styles["aside-right-btn-2"]}>
                     Take away
                   </button>
-                </div>
+                </div> */}
                 <div className={styles["gap"]}></div>
                 <div className={styles["btns"]}>
-                  <button className={styles["btn-save"]}>Save Promo</button>
+                  <form onSubmit={this.handleSubmit}>
+                    <button type="submit" className={styles["btn-save"]}>
+                      Save Promo
+                    </button>
+                  </form>
                   <button className={styles["btn-cancel"]}>Cancel</button>
                 </div>
               </aside>

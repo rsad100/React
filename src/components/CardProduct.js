@@ -4,7 +4,7 @@ import withNavigate from "../helpers/withNavigate";
 
 class CardProducts extends Component {
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div
         className={styles["item"]}
