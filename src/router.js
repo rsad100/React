@@ -13,6 +13,8 @@ import EditProduct from "./pages/EditProduct";
 import NewProduct from "./pages/NewProduct";
 import NewPromo from "./pages/NewPromo";
 import EditPromo from "./pages/EditPromo";
+import Dashboard from "./pages/Dashboard";
+import Order from "./pages/Order";
 import PrivateElement from "./components/PrivateElement";
 
 const router = createBrowserRouter([
@@ -21,13 +23,25 @@ const router = createBrowserRouter([
   { path: "/Home", element: <Home /> },
   {
     path: "/Profile/:id",
+    element: <Profile />,
+  },
+  { path: "/Product", element: <Product /> },
+  {
+    path: "/Dashboard",
     element: (
-      <PrivateElement allowedRoles={["admin"]}>
-        <Profile />
+      <PrivateElement>
+        <Dashboard />
       </PrivateElement>
     ),
   },
-  { path: "/Product", element: <Product /> },
+  {
+    path: "/Order",
+    element: (
+      <PrivateElement>
+        <Order />
+      </PrivateElement>
+    ),
+  },
   { path: "/Forgot", element: <Forgot /> },
   { path: "/Payment", element: <Payment /> },
   { path: "/History", element: <History /> },
@@ -40,9 +54,30 @@ const router = createBrowserRouter([
       </PrivateElement>
     ),
   },
-  { path: "/NewProduct", element: <NewProduct /> },
-  { path: "/NewPromo", element: <NewPromo /> },
-  { path: "/EditPromo/:id", element: <EditPromo /> },
+  {
+    path: "/NewProduct",
+    element: (
+      <PrivateElement>
+        <NewProduct />
+      </PrivateElement>
+    ),
+  },
+  {
+    path: "/NewPromo",
+    element: (
+      <PrivateElement>
+        <NewPromo />
+      </PrivateElement>
+    ),
+  },
+  {
+    path: "/EditPromo/:id",
+    element: (
+      <PrivateElement>
+        <EditPromo />
+      </PrivateElement>
+    ),
+  },
 ]);
 
 export default router;

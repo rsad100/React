@@ -1,8 +1,17 @@
 import React, { Component } from "react";
 import styles from "../styles/Product.module.css";
 import withNavigate from "../helpers/withNavigate";
+import jwt from "jwt-decode";
 
 class CardPromos extends Component {
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.info = jwt(token);
+      this.role = this.info.role;
+    }
+  }
+
   render() {
     return (
       <div
@@ -10,7 +19,9 @@ class CardPromos extends Component {
           styles["margin-1"]
         }`}
         onClick={() => {
-          this.props.navigate(`/EditPromo/${this.props.keys}`);
+          if (this.role === "admin") {
+            this.props.navigate(`/EditPromo/${this.props.keys}`);
+          }
         }}
       >
         <img

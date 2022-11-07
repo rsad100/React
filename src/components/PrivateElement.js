@@ -8,7 +8,7 @@ class PrivateElement extends React.Component {
     // conditional, jika true semua maka return kan komponen child
     // jika false, maka redirect
     // kondisi 1 = apakah sudah login
-    const { allowedRoles = [], children } = this.props;
+    const { allowedRoles = ["admin"], children } = this.props;
     const token = localStorage.getItem("token");
     if (token) {
       this.info = jwt(token);

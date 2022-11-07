@@ -23,6 +23,7 @@ class Navigate extends Component {
     if (this.token) {
       const info = jwt(this.token);
       this.id = info.user_id;
+      this.role = info.role;
     }
 
     // console.log(id);
@@ -68,22 +69,44 @@ class Navigate extends Component {
           >
             Product
           </p>
-          <p
-            className={styles[this.props.your]}
-            onClick={() => {
-              this.props.navigate("/payment");
-            }}
-          >
-            Your Cart
-          </p>
-          <p
-            className={styles[this.props.history]}
-            onClick={() => {
-              this.props.navigate("/history");
-            }}
-          >
-            History
-          </p>
+          {this.role === "admin" ? (
+            <p
+              className={styles[this.props.your]}
+              onClick={() => {
+                this.props.navigate("/Order");
+              }}
+            >
+              Orders
+            </p>
+          ) : (
+            <p
+              className={styles[this.props.your]}
+              onClick={() => {
+                this.props.navigate("/payment");
+              }}
+            >
+              Your Cart
+            </p>
+          )}
+          {this.role === "admin" ? (
+            <p
+              className={styles[this.props.history]}
+              onClick={() => {
+                this.props.navigate("/Dashboard");
+              }}
+            >
+              Dashboard
+            </p>
+          ) : (
+            <p
+              className={styles[this.props.history]}
+              onClick={() => {
+                this.props.navigate("/history");
+              }}
+            >
+              History
+            </p>
+          )}
         </section>
         {!this.token ? (
           <section className={styles["nav-bar-right-2"]}>

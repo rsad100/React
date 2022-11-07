@@ -7,11 +7,12 @@ import card from "../assets/card.png";
 import check from "../assets/check.png";
 import bank from "../assets/bank.png";
 import delivery from "../assets/delivery.png";
+import withNavigate from "../helpers/withNavigate";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
-class Payment extends Component {
+class Payments extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,6 +70,7 @@ class Payment extends Component {
     Axios.post(url, body)
       .then((res) => {
         console.log(res.data.result);
+        this.props.navigate("/History");
       })
       .catch((err) => console.log(err));
   }
@@ -305,5 +307,7 @@ class Payment extends Component {
     );
   }
 }
+
+const Payment = withNavigate(Payments);
 
 export default Payment;
