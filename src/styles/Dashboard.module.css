@@ -1,3 +1,13 @@
+.body {
+  margin: auto;
+  max-width: 1440px;
+}
+
+.body-2 {
+  background-color: #bcbaba;
+  height: 166vh;
+}
+
 .section-main {
   border-top: 0.5px solid #9f9f9f;
   border-bottom: 0.5px solid #9f9f9f;

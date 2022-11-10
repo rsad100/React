@@ -1,8 +1,18 @@
+.main-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.main-2 {
+  background-color: #bcbaba;
+}
+
 .section-center-main {
   border-top: 0.5px solid #9f9f9f;
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 52px;
+  background-color: white;
 }
 
 .section-center-1 {

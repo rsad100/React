@@ -43,36 +43,38 @@ class History extends Component {
     console.log(this.data);
     return (
       <Fragment>
-        <main>
-          <Nav
-            home="nav-text"
-            product="nav-text"
-            your="nav-text"
-            history="nav-text-2"
-          />
-          <section className={styles["section-center"]}>
-            <h1 className={styles["section-center-header"]}>
-              Let's see what you have bought!
-            </h1>
-            <p className={styles["section-center-header-text"]}>
-              select item to delete
-            </p>
-            <p className={styles["section-center-text"]}>Select All</p>
-            <section className={styles["section-center-2"]}>
-              {this.data?.map((transaction) => {
-                return (
-                  <CardHistory
-                    amount={transaction.amount}
-                    img={transaction.image_product}
-                    name={transaction.name_product}
-                    price={`IDR ${transaction.price * transaction.amount}`}
-                    status="Pending"
-                  />
-                );
-              })}
+        <main className={styles["main-2"]}>
+          <main className={styles["main-1"]}>
+            <Nav
+              home="nav-text"
+              product="nav-text"
+              your="nav-text"
+              history="nav-text-2"
+            />
+            <section className={styles["section-center"]}>
+              <h1 className={styles["section-center-header"]}>
+                Let's see what you have bought!
+              </h1>
+              <p className={styles["section-center-header-text"]}>
+                select item to delete
+              </p>
+              <p className={styles["section-center-text"]}>Select All</p>
+              <section className={styles["section-center-2"]}>
+                {this.data?.map((transaction) => {
+                  return (
+                    <CardHistory
+                      amount={transaction.amount}
+                      img={transaction.image_product}
+                      name={transaction.name_product}
+                      price={`IDR ${transaction.price * transaction.amount}`}
+                      status="Pending"
+                    />
+                  );
+                })}
+              </section>
             </section>
-          </section>
-          <Footer />
+            <Footer />
+          </main>
         </main>
       </Fragment>
     );

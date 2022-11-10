@@ -13,6 +13,16 @@
   justify-content: space-between;
 }
 
+.body-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.body-2 {
+  height: 158vh;
+  background-color: #bcbaba;
+}
+
 .nav {
   position: relative;
   display: flex;

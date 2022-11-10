@@ -4,6 +4,16 @@
   border-top: 0.5px solid #9f9f9f;
   padding-top: 38px;
   padding-bottom: 106px;
+  background-color: #ffffff;
+}
+
+.main-2 {
+  background-color: #bcbaba;
+}
+
+.main-1 {
+  max-width: 1440px;
+  margin: auto;
 }
 
 .section-1 {

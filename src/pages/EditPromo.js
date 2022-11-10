@@ -45,6 +45,17 @@ class EditPromos extends Component {
       .then((res) => {
         this.setState({
           promos: res.data.result,
+          code: res.data.result.find((item) => item.id_promo === this.id).code,
+          start: res.data.result.find((item) => item.id_promo === this.id)
+            .start_date,
+          end: res.data.result.find((item) => item.id_promo === this.id)
+            .end_date,
+          name: res.data.result.find((item) => item.id_promo === this.id)
+            .name_promo,
+          discount: res.data.result.find((item) => item.id_promo === this.id)
+            .discount,
+          desc: res.data.result.find((item) => item.id_promo === this.id)
+            .desc_promo,
         });
       })
       .catch((err) => console.log(err));
@@ -117,52 +128,53 @@ class EditPromos extends Component {
     console.log(this.state.desc);
     return (
       <Fragment>
-        <main>
-          <Nav
-            home="nav-text"
-            product="nav-text"
-            your="nav-text"
-            history="nav-text"
-          />
-          <section className={styles["section-main"]}>
-            <div className={styles["section-1"]}>
-              <div className={styles["section-1-div-1"]}>
-                <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
-                <p className={styles["section-1-text-2"]}>{">"} Edit promo</p>
+        <main className={styles["main-2"]}>
+          <main className={styles["main"]}>
+            <Nav
+              home="nav-text"
+              product="nav-text"
+              your="nav-text"
+              history="nav-text"
+            />
+            <section className={styles["section-main"]}>
+              <div className={styles["section-1"]}>
+                <div className={styles["section-1-div-1"]}>
+                  <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
+                  <p className={styles["section-1-text-2"]}>{">"} Edit promo</p>
+                </div>
+                <p className={styles["section-1-text-3"]}>cancel</p>
               </div>
-              <p className={styles["section-1-text-3"]}>cancel</p>
-            </div>
-            <div className={styles["section-2"]}>
-              <aside className={styles["aside-left"]}>
-                {this.state.image === undefined ? (
-                  <img
-                    className={styles["aside-left-img-2"]}
-                    src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_promo}`}
-                    alt="img"
+              <div className={styles["section-2"]}>
+                <aside className={styles["aside-left"]}>
+                  {this.state.image === undefined ? (
+                    <img
+                      className={styles["aside-left-img-2"]}
+                      src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_promo}`}
+                      alt="img"
+                    />
+                  ) : (
+                    <img
+                      className={styles["aside-left-img-2"]}
+                      src={this.state.image}
+                      alt="img"
+                    />
+                  )}
+                  <button className={styles["aside-left-button-1"]}>
+                    Take a picture
+                  </button>
+                  <input
+                    type="file"
+                    name="file"
+                    id="upload"
+                    className={styles["none"]}
+                    onChange={(event) => {
+                      this.handleFile(event);
+                    }}
                   />
-                ) : (
-                  <img
-                    className={styles["aside-left-img-2"]}
-                    src={this.state.image}
-                    alt="img"
-                  />
-                )}
-                <button className={styles["aside-left-button-1"]}>
-                  Take a picture
-                </button>
-                <input
-                  type="file"
-                  name="file"
-                  id="upload"
-                  className={styles["none"]}
-                  onChange={(event) => {
-                    this.handleFile(event);
-                  }}
-                />
-                <label for="upload" className={styles["aside-left-button-2"]}>
-                  Choose from gallery
-                </label>
-                {/* <div className={styles["aside-left-coupon"]}>
+                  <label for="upload" className={styles["aside-left-button-2"]}>
+                    Choose from gallery
+                  </label>
+                  {/* <div className={styles["aside-left-coupon"]}>
                   <div className={styles["coupon-div-1"]}>
                     <img
                       className={styles["coupon-img"]}
@@ -186,78 +198,59 @@ class EditPromos extends Component {
                     </p>
                   </div>
                 </div> */}
-                <h1 className={styles["aside-left-header-1"]}>
-                  Enter the discount :
-                </h1>
-                <div className={styles["dropdown"]}>
+                  <h1 className={styles["aside-left-header-1"]}>
+                    Enter the discount :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      type="text"
+                      placeholder={"Input discount"}
+                      className={styles["dropbtn"]}
+                      value={this.state.discount}
+                      onChange={(event) => this.handleChange(event, "discount")}
+                    />
+                  </div>{" "}
+                  <h1 className={styles["aside-left-header-3"]}>
+                    Input coupon code :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      type="text"
+                      placeholder={"Input coupon code"}
+                      className={styles["dropbtn"]}
+                      value={this.state.code}
+                      onChange={(event) => this.handleChange(event, "code")}
+                    />
+                  </div>
+                </aside>
+                <aside className={styles["aside-right"]}>
+                  <h1 className={styles["aside-right-header-1"]}>Name :</h1>
                   <input
-                    type="text"
-                    placeholder={this.data?.discount}
                     className={styles["dropbtn"]}
-                    value={this.state.discount}
-                    onChange={(event) => this.handleChange(event, "discount")}
-                  />
-                </div>
-                <h1 className={styles["aside-left-header-2"]}>Expire date :</h1>
-                <div className={styles["dropdown"]}>
+                    type={"text"}
+                    placeholder={"Type product name min. 50 characters"}
+                    value={this.state.name}
+                    onChange={(event) => this.handleChange(event, "name")}
+                  ></input>
+                  {/* <h1 className={styles["aside-right-header-1"]}>Price :</h1>
                   <input
-                    type="text"
-                    placeholder={this.data?.start_date}
-                    className={styles["dropbtn"]}
-                    value={this.state.start}
-                    onChange={(event) => this.handleChange(event, "start")}
-                  />
-                </div>
-                <div className={styles["dropdown"]}>
+                    className={styles["aside-right-input-1"]}
+                    type={"text"}
+                    placeholder={this.data?.normal_price}
+                    value={this.state.price}
+                    onChange={(event) => this.handleChange(event, "price")}
+                  ></input> */}
+                  <h1 className={styles["aside-right-header-1"]}>
+                    Description :
+                  </h1>
                   <input
-                    type="text"
-                    placeholder={this.data?.end_date}
                     className={styles["dropbtn"]}
-                    value={this.state.end}
-                    onChange={(event) => this.handleChange(event, "end")}
-                  />
-                </div>
-                <h1 className={styles["aside-left-header-3"]}>
-                  Input coupon code :
-                </h1>
-                <div className={styles["dropdown"]}>
-                  <input
-                    type="text"
-                    placeholder={this.data?.code}
-                    className={styles["dropbtn"]}
-                    value={this.state.code}
-                    onChange={(event) => this.handleChange(event, "code")}
-                  />
-                </div>
-              </aside>
-              <aside className={styles["aside-right"]}>
-                <h1 className={styles["aside-right-header-1"]}>Name :</h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={this.data?.name_promo}
-                  value={this.state.name}
-                  onChange={(event) => this.handleChange(event, "name")}
-                ></input>
-                <h1 className={styles["aside-right-header-1"]}>Price :</h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={this.data?.normal_price}
-                  value={this.state.price}
-                  onChange={(event) => this.handleChange(event, "price")}
-                ></input>
-                <h1 className={styles["aside-right-header-1"]}>
-                  Description :
-                </h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={this.data?.desc_promo}
-                  value={this.state.desc}
-                  onChange={(event) => this.handleChange(event, "desc")}
-                ></input>
-                {/* <h1 className={styles["aside-right-header-1"]}>
+                    type={"text"}
+                    placeholder={"Describe your promo min. 150 characters"}
+                    value={this.state.desc}
+                    onChange={(event) => this.handleChange(event, "desc")}
+                  ></input>
+                  {/* <h1 className={styles["aside-right-header-1"]}>
                   Input product size :
                 </h1>
                 <p className={styles["aside-right-text-1"]}>
@@ -271,7 +264,7 @@ class EditPromos extends Component {
                   <button className={styles["btn-size-2"]}>300 gr</button>
                   <button className={styles["btn-size-2"]}>500 gr</button>
                 </div> */}
-                {/* <h1 className={styles["aside-right-header-1"]}>
+                  {/* <h1 className={styles["aside-right-header-1"]}>
                   Input delivery methods :
                 </h1>
                 <p className={styles["aside-right-text-1"]}>
@@ -288,19 +281,40 @@ class EditPromos extends Component {
                     Take away
                   </button>
                 </div> */}
-                <div className={styles["gap"]}></div>
-                <div className={styles["btns"]}>
-                  <form onSubmit={this.handleSubmit}>
-                    <button type="submit" className={styles["btn-save"]}>
-                      Save Promo
-                    </button>
-                  </form>
-                  <button className={styles["btn-cancel"]}>Cancel</button>
-                </div>
-              </aside>
-            </div>
-          </section>
-          <Footer padding="202px" />
+                  <h1 className={styles["aside-left-header-2"]}>
+                    Expire date :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      type="date"
+                      className={styles["dropbtn"]}
+                      value={this.state.start}
+                      onChange={(event) => this.handleChange(event, "start")}
+                    />
+                  </div>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      type="date"
+                      className={styles["dropbtn"]}
+                      value={this.state.end}
+                      onChange={(event) => this.handleChange(event, "end")}
+                    />
+                  </div>
+
+                  <div className={styles["gap"]}></div>
+                  <div className={styles["btns"]}>
+                    <form onSubmit={this.handleSubmit}>
+                      <button type="submit" className={styles["btn-save"]}>
+                        Save Promo
+                      </button>
+                    </form>
+                    <button className={styles["btn-cancel"]}>Cancel</button>
+                  </div>
+                </aside>
+              </div>
+            </section>
+            <Footer padding="202px" />
+          </main>
         </main>
       </Fragment>
     );

@@ -12,6 +12,22 @@
   font-family: "Rubik";
 }
 
+.fragment {
+  background-color: #bcbaba;
+}
+
+.container {
+  display: flex;
+}
+
+.container-1 {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 1440px;
+  background-color: white;
+}
+
 .inline {
   display: inline-block;
 }
@@ -108,10 +124,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.container {
-  display: flex;
 }
 
 .side-image {

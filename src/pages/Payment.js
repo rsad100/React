@@ -80,228 +80,234 @@ class Payments extends Component {
     this.data2 = this.state.user.find((item) => item.id_user === this.id);
     return (
       <Fragment>
-        <body>
-          <main className={styles["main"]}>
-            <Nav
-              home="nav-text"
-              product="nav-text"
-              your="nav-text-2"
-              history="nav-text"
-            />
-            <section className={styles["section-center"]}>
-              <nav className={styles["nav"]}>
-                <div className={styles["nav-image-div-1"]}>
-                  <div className={styles["nav-image-div-2"]}>
-                    <img
-                      className={styles["nav-image"]}
-                      src={check}
-                      alt="granny"
-                    />
-                  </div>
-                  <p className={styles["nav-text"]}>Order</p>
-                </div>
-                <div className={styles["nav-line"]}></div>
-                <div className={styles["nav-image-div-1"]}>
-                  <div className={styles["nav-image-div-2"]}>
-                    <img
-                      className={styles["nav-image"]}
-                      src={check}
-                      alt="granny"
-                    />
-                  </div>
-                  <p className={styles["nav-text"]}>Checkout</p>
-                </div>
-
-                <div className={styles["nav-line"]}></div>
-                <div className={styles["nav-image-div-1"]}>
-                  <div className={styles["nav-image-div-2"]}>
-                    <img
-                      className={styles["nav-image"]}
-                      src={check}
-                      alt="granny"
-                    />
-                  </div>
-                  <p className={styles["nav-text"]}>Payment</p>
-                </div>
-              </nav>
-              <h1 className={styles["center-header"]}>
-                Checkout your item now!
-              </h1>
-              <section className={styles["section-center-2"]}>
-                <aside className={styles["aside-left"]}>
-                  <h1 className={styles["aside-left-header"]}>Order Summary</h1>
-                  <div className={styles["aside-left-div"]}>
-                    <div className={styles["aside-left-div-div"]}>
+        <body className={styles["body-2"]}>
+          <body className={styles["body-1"]}>
+            <main className={styles["main"]}>
+              <Nav
+                home="nav-text"
+                product="nav-text"
+                your="nav-text-2"
+                history="nav-text"
+              />
+              <section className={styles["section-center"]}>
+                <nav className={styles["nav"]}>
+                  <div className={styles["nav-image-div-1"]}>
+                    <div className={styles["nav-image-div-2"]}>
                       <img
-                        className={styles["aside-left-image"]}
-                        src={localStorage.getItem("image_product")}
-                        alt="hazelnut"
+                        className={styles["nav-image"]}
+                        src={check}
+                        alt="granny"
                       />
-                      <div className={styles["aside-left-header-div-div"]}>
-                        <p className={styles["aside-left-text-1"]}>
-                          {localStorage.getItem("name_product")}
+                    </div>
+                    <p className={styles["nav-text"]}>Order</p>
+                  </div>
+                  <div className={styles["nav-line"]}></div>
+                  <div className={styles["nav-image-div-1"]}>
+                    <div className={styles["nav-image-div-2"]}>
+                      <img
+                        className={styles["nav-image"]}
+                        src={check}
+                        alt="granny"
+                      />
+                    </div>
+                    <p className={styles["nav-text"]}>Checkout</p>
+                  </div>
+
+                  <div className={styles["nav-line"]}></div>
+                  <div className={styles["nav-image-div-1"]}>
+                    <div className={styles["nav-image-div-2"]}>
+                      <img
+                        className={styles["nav-image"]}
+                        src={check}
+                        alt="granny"
+                      />
+                    </div>
+                    <p className={styles["nav-text"]}>Payment</p>
+                  </div>
+                </nav>
+                <h1 className={styles["center-header"]}>
+                  Checkout your item now!
+                </h1>
+                <section className={styles["section-center-2"]}>
+                  <aside className={styles["aside-left"]}>
+                    <h1 className={styles["aside-left-header"]}>
+                      Order Summary
+                    </h1>
+                    <div className={styles["aside-left-div"]}>
+                      <div className={styles["aside-left-div-div"]}>
+                        <img
+                          className={styles["aside-left-image"]}
+                          src={localStorage.getItem("image_product")}
+                          alt="hazelnut"
+                        />
+                        <div className={styles["aside-left-header-div-div"]}>
+                          <p className={styles["aside-left-text-1"]}>
+                            {localStorage.getItem("name_product")}
+                          </p>
+                          <p className={styles["aside-left-text-1"]}>
+                            x{localStorage.getItem("amount_product")}
+                          </p>
+                          <p className={styles["aside-left-text-1"]}>
+                            {localStorage.getItem("size_product")}
+                          </p>
+                        </div>
+                      </div>
+                      <p className={styles["aside-left-text-1"]}>
+                        IDR {localStorage.getItem("price_product")}
+                      </p>
+                    </div>
+                    <div className={styles["aside-left-line"]}></div>
+                    <div className={styles["aside-left-div-2"]}>
+                      <aside>
+                        <p className={styles["aside-left-text-2"]}>SUBTOTAL</p>
+                        <p className={styles["aside-left-text-2"]}>
+                          TAX & FEES
                         </p>
-                        <p className={styles["aside-left-text-1"]}>
-                          x{localStorage.getItem("amount_product")}
+                        <p className={styles["aside-left-text-2"]}>SHIPPING</p>
+                      </aside>
+                      <aside>
+                        <p className={styles["aside-left-text-2"]}>
+                          IDR{" "}
+                          {localStorage.getItem("price_product") *
+                            localStorage.getItem("amount_product")}
                         </p>
-                        <p className={styles["aside-left-text-1"]}>
-                          {localStorage.getItem("size_product")}
+                        <p className={styles["aside-left-text-2"]}>
+                          IDR{" "}
+                          {localStorage.getItem("price_product") *
+                            localStorage.getItem("amount_product") *
+                            0.1}
+                        </p>
+                        <p className={styles["aside-left-text-2"]}>IDR 0</p>
+                      </aside>
+                    </div>
+                    <div className={styles["aside-left-div-3"]}>
+                      <p className={styles["aside-left-text-3"]}>TOTAL</p>
+                      <p className={styles["aside-left-text-3"]}>
+                        IDR{" "}
+                        {localStorage.getItem("price_product") *
+                          localStorage.getItem("amount_product") +
+                          localStorage.getItem("price_product") *
+                            localStorage.getItem("amount_product") *
+                            0.1}
+                      </p>
+                    </div>
+                  </aside>
+                  <aside className={styles["aside-right"]}>
+                    <div className={styles["aside-right-div-1"]}>
+                      <h1 className={styles["aside-right-div-1-header"]}>
+                        Address Details
+                      </h1>
+                      <p className={styles["aside-right-div-1-text"]}>edit</p>
+                    </div>
+                    <div className={styles["aside-right-div-2"]}>
+                      <div className={styles["aside-right-div-2-div"]}>
+                        <p className={styles["aside-right-text-1"]}>Delivery</p>
+                        <p className={styles["aside-right-text-2"]}>
+                          to {this.data?.address}
                         </p>
                       </div>
-                    </div>
-                    <p className={styles["aside-left-text-1"]}>
-                      IDR {localStorage.getItem("price_product")}
-                    </p>
-                  </div>
-                  <div className={styles["aside-left-line"]}></div>
-                  <div className={styles["aside-left-div-2"]}>
-                    <aside>
-                      <p className={styles["aside-left-text-2"]}>SUBTOTAL</p>
-                      <p className={styles["aside-left-text-2"]}>TAX & FEES</p>
-                      <p className={styles["aside-left-text-2"]}>SHIPPING</p>
-                    </aside>
-                    <aside>
-                      <p className={styles["aside-left-text-2"]}>
-                        IDR{" "}
-                        {localStorage.getItem("price_product") *
-                          localStorage.getItem("amount_product")}
-                      </p>
-                      <p className={styles["aside-left-text-2"]}>
-                        IDR{" "}
-                        {localStorage.getItem("price_product") *
-                          localStorage.getItem("amount_product") *
-                          0.1}
-                      </p>
-                      <p className={styles["aside-left-text-2"]}>IDR 0</p>
-                    </aside>
-                  </div>
-                  <div className={styles["aside-left-div-3"]}>
-                    <p className={styles["aside-left-text-3"]}>TOTAL</p>
-                    <p className={styles["aside-left-text-3"]}>
-                      IDR{" "}
-                      {localStorage.getItem("price_product") *
-                        localStorage.getItem("amount_product") +
-                        localStorage.getItem("price_product") *
-                          localStorage.getItem("amount_product") *
-                          0.1}
-                    </p>
-                  </div>
-                </aside>
-                <aside className={styles["aside-right"]}>
-                  <div className={styles["aside-right-div-1"]}>
-                    <h1 className={styles["aside-right-div-1-header"]}>
-                      Address Details
-                    </h1>
-                    <p className={styles["aside-right-div-1-text"]}>edit</p>
-                  </div>
-                  <div className={styles["aside-right-div-2"]}>
-                    <div className={styles["aside-right-div-2-div"]}>
-                      <p className={styles["aside-right-text-1"]}>Delivery</p>
-                      <p className={styles["aside-right-text-2"]}>
-                        to {this.data?.address}
-                      </p>
-                    </div>
-                    <div className={styles["aside-right-div-2-line"]}></div>
-                    {/* <p className={styles["aside-right-text-2"]}>
+                      <div className={styles["aside-right-div-2-line"]}></div>
+                      {/* <p className={styles["aside-right-text-2"]}>
                       Km 5 refinery road oppsite re public road, effurun,
                       jakarta
                     </p>
                     <div className={styles["aside-right-div-2-line"]}></div> */}
-                    <p className={styles["aside-right-text-2"]}>
-                      {this.data2?.phone_number}
-                    </p>
-                  </div>
-                  <div className={styles["aside-right-div-3"]}>
-                    <h1 className={styles["aside-right-div-1-header"]}>
-                      Payment method
-                    </h1>
-                  </div>
-                  <div className={styles["aside-right-div-4"]}>
-                    <div className={styles["aside-right-div-4-div"]}>
-                      <button
-                        className={styles[this.state.button1]}
-                        onClick={() => {
-                          this.setState({
-                            button1: "aside-right-div-button-2",
-                            button2: "aside-right-div-button",
-                            button3: "aside-right-div-button",
-                            payment: 1,
-                          });
-                        }}
-                      ></button>
-                      <div className={styles["aside-right-div-icon"]}>
-                        <img
-                          className={styles["icon-image"]}
-                          src={card}
-                          alt="card"
-                        />
-                      </div>
-                      <p className={styles["aside-right-text-2"]}>Card</p>
-                    </div>
-                    <div className={styles["aside-right-div-4-line"]}></div>
-                    <div className={styles["aside-right-div-4-div-2"]}>
-                      <button
-                        className={styles[this.state.button2]}
-                        onClick={() => {
-                          this.setState({
-                            button1: "aside-right-div-button",
-                            button2: "aside-right-div-button-2",
-                            button3: "aside-right-div-button",
-                            payment: 2,
-                          });
-                        }}
-                      ></button>
-                      <div className={styles["aside-right-div-icon-2"]}>
-                        <img
-                          className={styles["icon-image-2"]}
-                          src={bank}
-                          alt="bank"
-                        />
-                      </div>
                       <p className={styles["aside-right-text-2"]}>
-                        Bank account
+                        {this.data2?.phone_number}
                       </p>
                     </div>
-                    <div className={styles["aside-right-div-4-line"]}></div>
-                    <div className={styles["aside-right-div-4-div-3"]}>
-                      <button
-                        className={styles[this.state.button3]}
-                        onClick={() => {
-                          this.setState({
-                            button1: "aside-right-div-button",
-                            button2: "aside-right-div-button",
-                            button3: "aside-right-div-button-2",
-                            payment: 3,
-                          });
-                        }}
-                      ></button>
-                      <div className={styles["aside-right-div-icon-3"]}>
-                        <img
-                          className={styles["icon-image-3"]}
-                          src={delivery}
-                          alt="delivery"
-                        />
+                    <div className={styles["aside-right-div-3"]}>
+                      <h1 className={styles["aside-right-div-1-header"]}>
+                        Payment method
+                      </h1>
+                    </div>
+                    <div className={styles["aside-right-div-4"]}>
+                      <div className={styles["aside-right-div-4-div"]}>
+                        <button
+                          className={styles[this.state.button1]}
+                          onClick={() => {
+                            this.setState({
+                              button1: "aside-right-div-button-2",
+                              button2: "aside-right-div-button",
+                              button3: "aside-right-div-button",
+                              payment: 1,
+                            });
+                          }}
+                        ></button>
+                        <div className={styles["aside-right-div-icon"]}>
+                          <img
+                            className={styles["icon-image"]}
+                            src={card}
+                            alt="card"
+                          />
+                        </div>
+                        <p className={styles["aside-right-text-2"]}>Card</p>
                       </div>
-                      <p className={styles["aside-right-text-2"]}>
-                        Cash on delivery
-                      </p>
+                      <div className={styles["aside-right-div-4-line"]}></div>
+                      <div className={styles["aside-right-div-4-div-2"]}>
+                        <button
+                          className={styles[this.state.button2]}
+                          onClick={() => {
+                            this.setState({
+                              button1: "aside-right-div-button",
+                              button2: "aside-right-div-button-2",
+                              button3: "aside-right-div-button",
+                              payment: 2,
+                            });
+                          }}
+                        ></button>
+                        <div className={styles["aside-right-div-icon-2"]}>
+                          <img
+                            className={styles["icon-image-2"]}
+                            src={bank}
+                            alt="bank"
+                          />
+                        </div>
+                        <p className={styles["aside-right-text-2"]}>
+                          Bank account
+                        </p>
+                      </div>
+                      <div className={styles["aside-right-div-4-line"]}></div>
+                      <div className={styles["aside-right-div-4-div-3"]}>
+                        <button
+                          className={styles[this.state.button3]}
+                          onClick={() => {
+                            this.setState({
+                              button1: "aside-right-div-button",
+                              button2: "aside-right-div-button",
+                              button3: "aside-right-div-button-2",
+                              payment: 3,
+                            });
+                          }}
+                        ></button>
+                        <div className={styles["aside-right-div-icon-3"]}>
+                          <img
+                            className={styles["icon-image-3"]}
+                            src={delivery}
+                            alt="delivery"
+                          />
+                        </div>
+                        <p className={styles["aside-right-text-2"]}>
+                          Cash on delivery
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <form onSubmit={this.handleSubmit}>
-                    <button
-                      type="submit"
-                      className={styles["aside-right-div-5"]}
-                    >
-                      <p className={styles["aside-right-div-5-text"]}>
-                        Confirm and Pay
-                      </p>
-                    </button>
-                  </form>
-                </aside>
+                    <form onSubmit={this.handleSubmit}>
+                      <button
+                        type="submit"
+                        className={styles["aside-right-div-5"]}
+                      >
+                        <p className={styles["aside-right-div-5-text"]}>
+                          Confirm and Pay
+                        </p>
+                      </button>
+                    </form>
+                  </aside>
+                </section>
               </section>
-            </section>
-            <Footer />
-          </main>
+              <Footer />
+            </main>
+          </body>
         </body>
       </Fragment>
     );

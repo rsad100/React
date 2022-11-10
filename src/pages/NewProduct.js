@@ -109,175 +109,178 @@ class NewProducts extends Component {
 
     return (
       <Fragment>
-        <main>
-          <Nav
-            home="nav-text"
-            product="nav-text"
-            your="nav-text"
-            history="nav-text"
-          />
-          <section className={styles["section-main"]}>
-            <div className={styles["section-1"]}>
-              <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
-              <p className={styles["section-1-text-2"]}>
-                {">"} Add new product
-              </p>
-            </div>
-            <div className={styles["section-2"]}>
-              <aside className={styles["aside-left"]}>
-                {this.state.image === undefined ? (
-                  <div className={styles["aside-left-img"]}>
-                    <img src={photo} alt="img" />
-                  </div>
-                ) : (
-                  <img
-                    className={styles["aside-left-img-2"]}
-                    src={this.state.image}
-                    alt="img"
-                  />
-                )}
-                <button className={styles["aside-left-button-1"]}>
-                  Take a picture
-                </button>
-                <input
-                  type="file"
-                  name="file"
-                  id="upload"
-                  className={styles["none"]}
-                  onChange={(event) => {
-                    this.handleFile(event);
-                  }}
-                />
-                <label for="upload" className={styles["aside-left-button-2"]}>
-                  Choose from gallery
-                </label>
-                <h1 className={styles["aside-left-header-1"]}>
-                  Delivery Hour :
-                </h1>
-                <div className={styles["dropdown"]}>
-                  <input
-                    className={styles["dropbtn"]}
-                    type={"text"}
-                    placeholder={"Type start hour"}
-                    value={this.state.start}
-                    onChange={(event) => this.handleChange(event, "start")}
-                  ></input>
-                </div>
-                <div className={styles["dropdown"]}>
-                  <input
-                    className={styles["dropbtn"]}
-                    type={"text"}
-                    placeholder={"Type end hour"}
-                    value={this.state.end}
-                    onChange={(event) => this.handleChange(event, "end")}
-                  ></input>
-                </div>
-                <h1 className={styles["aside-left-header-2"]}>Input stock :</h1>
-                <div className={styles["dropdown"]}>
-                  <input
-                    className={styles["dropbtn"]}
-                    type={"text"}
-                    placeholder={"Input stock"}
-                    value={this.state.stock}
-                    onChange={(event) => this.handleChange(event, "stock")}
-                  ></input>
-                </div>
-              </aside>
-              <aside className={styles["aside-right"]}>
-                <h1 className={styles["aside-right-header-1"]}>Name :</h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={"Type product name min.50 characters"}
-                  value={this.state.name}
-                  onChange={(event) => this.handleChange(event, "name")}
-                ></input>
-                <h1 className={styles["aside-right-header-1"]}>Price :</h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={"Type the price"}
-                  value={this.state.price}
-                  onChange={(event) => this.handleChange(event, "price")}
-                ></input>
-                <h1 className={styles["aside-right-header-1"]}>
-                  Description :
-                </h1>
-                <input
-                  className={styles["aside-right-input-1"]}
-                  type={"text"}
-                  placeholder={"Describe your product min.150 characters"}
-                  value={this.state.desc}
-                  onChange={(event) => this.handleChange(event, "desc")}
-                ></input>
-                <h1 className={styles["aside-right-header-1"]}>
-                  Choose category :
-                </h1>
-                <p className={styles["aside-right-text-1"]}>
-                  Click category you want to use for this product
+        <main className={styles["main-2"]}>
+          <main className={styles["main-1"]}>
+            <Nav
+              home="nav-text"
+              product="nav-text"
+              your="nav-text"
+              history="nav-text"
+            />
+            <section className={styles["section-main"]}>
+              <div className={styles["section-1"]}>
+                <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
+                <p className={styles["section-1-text-2"]}>
+                  {">"} Add new product
                 </p>
-                <div className={styles["section-3"]}>
-                  <button
-                    className={
-                      this.state.category === "Coffee"
-                        ? styles["btn-size-1"]
-                        : styles["btn-size-1-1"]
-                    }
-                    onClick={() => {
-                      this.setState({
-                        category: "Coffee",
-                      });
-                    }}
-                  >
-                    Coffee
+              </div>
+              <div className={styles["section-2"]}>
+                <aside className={styles["aside-left"]}>
+                  {this.state.image === undefined ? (
+                    <div className={styles["aside-left-img"]}>
+                      <img src={photo} alt="img" />
+                    </div>
+                  ) : (
+                    <img
+                      className={styles["aside-left-img-2"]}
+                      src={this.state.image}
+                      alt="img"
+                    />
+                  )}
+                  <button className={styles["aside-left-button-1"]}>
+                    Take a picture
                   </button>
-                  <button
-                    className={
-                      this.state.category === "Non"
-                        ? styles["btn-size-1"]
-                        : styles["btn-size-1-1"]
-                    }
-                    onClick={() => {
-                      this.setState({
-                        category: "Non",
-                      });
+                  <input
+                    type="file"
+                    name="file"
+                    id="upload"
+                    className={styles["none"]}
+                    onChange={(event) => {
+                      this.handleFile(event);
                     }}
-                  >
-                    Non Coffee
-                  </button>
-                  <button
-                    className={
-                      this.state.category === "Food"
-                        ? styles["btn-size-1"]
-                        : styles["btn-size-1-1"]
-                    }
-                    onClick={() => {
-                      this.setState({
-                        category: "Food",
-                      });
-                    }}
-                  >
-                    Foods
-                  </button>
-                  <button
-                    className={
-                      this.state.category === "Add"
-                        ? styles["btn-size-1"]
-                        : styles["btn-size-1-1"]
-                    }
-                    onClick={() => {
-                      this.setState({
-                        category: "Add",
-                      });
-                    }}
-                  >
-                    Add-on
-                  </button>
-                  {/* <button className={styles["btn-size-2"]}>250 gr</button>
+                  />
+                  <label for="upload" className={styles["aside-left-button-2"]}>
+                    Choose from gallery
+                  </label>
+                  <h1 className={styles["aside-left-header-1"]}>
+                    Delivery Hour :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      className={styles["dropbtn"]}
+                      type={"text"}
+                      placeholder={"Type start hour"}
+                      value={this.state.start}
+                      onChange={(event) => this.handleChange(event, "start")}
+                    ></input>
+                  </div>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      className={styles["dropbtn"]}
+                      type={"text"}
+                      placeholder={"Type end hour"}
+                      value={this.state.end}
+                      onChange={(event) => this.handleChange(event, "end")}
+                    ></input>
+                  </div>
+                  <h1 className={styles["aside-left-header-2"]}>
+                    Input stock :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      className={styles["dropbtn"]}
+                      type={"text"}
+                      placeholder={"Input stock"}
+                      value={this.state.stock}
+                      onChange={(event) => this.handleChange(event, "stock")}
+                    ></input>
+                  </div>
+                </aside>
+                <aside className={styles["aside-right"]}>
+                  <h1 className={styles["aside-right-header-1"]}>Name :</h1>
+                  <input
+                    className={styles["aside-right-input-1"]}
+                    type={"text"}
+                    placeholder={"Type product name min.50 characters"}
+                    value={this.state.name}
+                    onChange={(event) => this.handleChange(event, "name")}
+                  ></input>
+                  <h1 className={styles["aside-right-header-1"]}>Price :</h1>
+                  <input
+                    className={styles["aside-right-input-1"]}
+                    type={"text"}
+                    placeholder={"Type the price"}
+                    value={this.state.price}
+                    onChange={(event) => this.handleChange(event, "price")}
+                  ></input>
+                  <h1 className={styles["aside-right-header-1"]}>
+                    Description :
+                  </h1>
+                  <input
+                    className={styles["aside-right-input-1"]}
+                    type={"text"}
+                    placeholder={"Describe your product min.150 characters"}
+                    value={this.state.desc}
+                    onChange={(event) => this.handleChange(event, "desc")}
+                  ></input>
+                  <h1 className={styles["aside-right-header-1"]}>
+                    Choose category :
+                  </h1>
+                  <p className={styles["aside-right-text-1"]}>
+                    Click category you want to use for this product
+                  </p>
+                  <div className={styles["section-3"]}>
+                    <button
+                      className={
+                        this.state.category === "Coffee"
+                          ? styles["btn-size-1"]
+                          : styles["btn-size-1-1"]
+                      }
+                      onClick={() => {
+                        this.setState({
+                          category: "Coffee",
+                        });
+                      }}
+                    >
+                      Coffee
+                    </button>
+                    <button
+                      className={
+                        this.state.category === "Non"
+                          ? styles["btn-size-1"]
+                          : styles["btn-size-1-1"]
+                      }
+                      onClick={() => {
+                        this.setState({
+                          category: "Non",
+                        });
+                      }}
+                    >
+                      Non Coffee
+                    </button>
+                    <button
+                      className={
+                        this.state.category === "Food"
+                          ? styles["btn-size-1"]
+                          : styles["btn-size-1-1"]
+                      }
+                      onClick={() => {
+                        this.setState({
+                          category: "Food",
+                        });
+                      }}
+                    >
+                      Foods
+                    </button>
+                    <button
+                      className={
+                        this.state.category === "Add"
+                          ? styles["btn-size-1"]
+                          : styles["btn-size-1-1"]
+                      }
+                      onClick={() => {
+                        this.setState({
+                          category: "Add",
+                        });
+                      }}
+                    >
+                      Add-on
+                    </button>
+                    {/* <button className={styles["btn-size-2"]}>250 gr</button>
                   <button className={styles["btn-size-2"]}>300 gr</button>
                   <button className={styles["btn-size-2"]}>500 gr</button> */}
-                </div>
-                {/* <h1 className={styles["aside-right-header-1"]}>
+                  </div>
+                  {/* <h1 className={styles["aside-right-header-1"]}>
                   Input delivery methods :
                 </h1>
                 <p className={styles["aside-right-text-1"]}>
@@ -294,25 +297,26 @@ class NewProducts extends Component {
                     Take away
                   </button>
                 </div> */}
-                <div className={styles["aside-right-div"]}>
-                  <form onSubmit={this.handleSubmit}>
-                    <button type="submit" className={styles["btn-save"]}>
-                      Save Product
+                  <div className={styles["aside-right-div"]}>
+                    <form onSubmit={this.handleSubmit}>
+                      <button type="submit" className={styles["btn-save"]}>
+                        Save Product
+                      </button>
+                    </form>
+                    <button
+                      className={styles["btn-cancel"]}
+                      onClick={() => {
+                        this.props.navigate("/product");
+                      }}
+                    >
+                      Cancel
                     </button>
-                  </form>
-                  <button
-                    className={styles["btn-cancel"]}
-                    onClick={() => {
-                      this.props.navigate("/product");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </aside>
-            </div>
-          </section>
-          <Footer padding="202px" />
+                  </div>
+                </aside>
+              </div>
+            </section>
+            <Footer padding="202px" />
+          </main>
         </main>
       </Fragment>
     );

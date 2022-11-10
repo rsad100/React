@@ -98,152 +98,154 @@ class EditProducts extends Component {
     // console.log(this.state.name);
     return (
       <Fragment>
-        <main>
-          <Nav
-            home="nav-text"
-            product="nav-text"
-            your="nav-text"
-            history="nav-text"
-          />
-          <section className={styles["section-main"]}>
-            <div className={styles["section-1"]}>
-              <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
-              <p className={styles["section-1-text-2"]}>
-                {">"} {this.data?.name_product} {">"} Edit Product
-              </p>
-            </div>
-            <div className={styles["section-2"]}>
-              <aside>
-                <input
-                  type="file"
-                  name="file"
-                  id="upload"
-                  className={styles["none"]}
-                  onChange={(event) => {
-                    this.handleFile(event);
-                  }}
-                />
-                <label for="upload">
-                  <img
-                    className={styles["product"]}
-                    src={
-                      this.state.image === undefined
-                        ? `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_product}`
-                        : this.state.image
-                    }
-                    alt="trash"
+        <main className={styles["main-2"]}>
+          <main className={styles["main"]}>
+            <Nav
+              home="nav-text"
+              product="nav-text"
+              your="nav-text"
+              history="nav-text"
+            />
+            <section className={styles["section-main"]}>
+              <div className={styles["section-1"]}>
+                <p className={styles["section-1-text-1"]}>Favorite & Promo</p>
+                <p className={styles["section-1-text-2"]}>
+                  {">"} {this.data?.name_product} {">"} Edit Product
+                </p>
+              </div>
+              <div className={styles["section-2"]}>
+                <aside>
+                  <input
+                    type="file"
+                    name="file"
+                    id="upload"
+                    className={styles["none"]}
+                    onChange={(event) => {
+                      this.handleFile(event);
+                    }}
                   />
-                </label>
+                  <label for="upload">
+                    <img
+                      className={styles["product"]}
+                      src={
+                        this.state.image === undefined
+                          ? `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_product}`
+                          : this.state.image
+                      }
+                      alt="trash"
+                    />
+                  </label>
 
-                <div className={styles["aside-left-text-3"]}>
-                  <p className={styles["aside-left-text-1"]}>
-                    Delivery only on
-                  </p>
-                  <p className={styles["aside-left-text-2"]}>
-                    Monday to friday
-                  </p>
-                  <p className={styles["aside-left-text-1"]}>at</p>
-                  <p className={styles["aside-left-text-2"]}>1 - 7 pm</p>
-                </div>
-              </aside>
-              <aside className={styles["aside-right"]}>
-                <input
-                  type="text"
-                  placeholder={this.data?.name_product}
-                  className={styles["aside-right-header"]}
-                  value={this.state.name}
-                  onChange={(event) => this.handleChange(event, "name")}
-                />
-                {/* <h1 className={styles["aside-right-header"]}>
-                  {this.data?.name_product}
-                </h1> */}
-                <div className={styles["line"]}></div>
-
-                <p className={styles["aside-right-text-1"]}>
-                  IDR{" "}
+                  <div className={styles["aside-left-text-3"]}>
+                    <p className={styles["aside-left-text-1"]}>
+                      Delivery only on
+                    </p>
+                    <p className={styles["aside-left-text-2"]}>
+                      Monday to friday
+                    </p>
+                    <p className={styles["aside-left-text-1"]}>at</p>
+                    <p className={styles["aside-left-text-2"]}>1 - 7 pm</p>
+                  </div>
+                </aside>
+                <aside className={styles["aside-right"]}>
                   <input
                     type="text"
-                    placeholder={this.data?.price}
-                    className={styles["aside-right-text-1"]}
-                    value={this.state.price}
-                    onChange={(event) => this.handleChange(event, "price")}
+                    placeholder={this.data?.name_product}
+                    className={styles["aside-right-header"]}
+                    value={this.state.name}
+                    onChange={(event) => this.handleChange(event, "name")}
                   />
-                </p>
-                <div className={styles["line"]}></div>
-                <input
-                  type="text"
-                  placeholder={this.data?.desc_product}
-                  className={styles["aside-right-text-2"]}
-                  value={this.state.desc}
-                  onChange={(event) => this.handleChange(event, "desc")}
-                />
-                <div className={styles["line-2"]}></div>
-                <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Select Size</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
-                    </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    {/* <p>test</p>
+                  {/* <h1 className={styles["aside-right-header"]}>
+                  {this.data?.name_product}
+                </h1> */}
+                  <div className={styles["line"]}></div>
+
+                  <p className={styles["aside-right-text-1"]}>
+                    IDR{" "}
+                    <input
+                      type="text"
+                      placeholder={this.data?.price}
+                      className={styles["aside-right-text-1"]}
+                      value={this.state.price}
+                      onChange={(event) => this.handleChange(event, "price")}
+                    />
+                  </p>
+                  <div className={styles["line"]}></div>
+                  <input
+                    type="text"
+                    placeholder={this.data?.desc_product}
+                    className={styles["aside-right-text-2"]}
+                    value={this.state.desc}
+                    onChange={(event) => this.handleChange(event, "desc")}
+                  />
+                  <div className={styles["line-2"]}></div>
+                  <div className={styles["dropdown"]}>
+                    <button className={styles["dropbtn"]}>
+                      <p>Select Size</p>
+                      <div>
+                        <img
+                          className={styles["chevron-left"]}
+                          src={chevronLeft}
+                          alt="chevronLeft"
+                        />
+                        <img
+                          className={styles["chevron-left"]}
+                          src={chevronRight}
+                          alt="chevronRight"
+                        />
+                      </div>
+                    </button>
+                    <div className={styles["dropdown-content"]}>
+                      {/* <p>test</p>
                     <p>test</p>
                     <p>test</p> */}
-                  </div>
-                </div>
-                <div className={styles["dropdown"]}>
-                  <button className={styles["dropbtn"]}>
-                    <p>Select Delivery Methods</p>
-                    <div>
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronLeft}
-                        alt="chevronLeft"
-                      />
-                      <img
-                        className={styles["chevron-left"]}
-                        src={chevronRight}
-                        alt="chevronRight"
-                      />
                     </div>
-                  </button>
-                  <div className={styles["dropdown-content"]}>
-                    {/* <p>test</p>
+                  </div>
+                  <div className={styles["dropdown"]}>
+                    <button className={styles["dropbtn"]}>
+                      <p>Select Delivery Methods</p>
+                      <div>
+                        <img
+                          className={styles["chevron-left"]}
+                          src={chevronLeft}
+                          alt="chevronLeft"
+                        />
+                        <img
+                          className={styles["chevron-left"]}
+                          src={chevronRight}
+                          alt="chevronRight"
+                        />
+                      </div>
+                    </button>
+                    <div className={styles["dropdown-content"]}>
+                      {/* <p>test</p>
                     <p>test</p>
                     <p>test</p> */}
+                    </div>
                   </div>
-                </div>
-                <div className={styles["section-3"]}>
-                  <div className={styles["counter-main"]}>
-                    <div className={styles["counter-text-1"]}>+</div>
-                    <div className={styles["counter-text-2"]}>2</div>
-                    <div className={styles["counter-text-1"]}>-</div>
+                  <div className={styles["section-3"]}>
+                    <div className={styles["counter-main"]}>
+                      <div className={styles["counter-text-1"]}>+</div>
+                      <div className={styles["counter-text-2"]}>2</div>
+                      <div className={styles["counter-text-1"]}>-</div>
+                    </div>
+                    <button className={styles["aside-right-button-1"]}>
+                      Add to Cart
+                    </button>
                   </div>
-                  <button className={styles["aside-right-button-1"]}>
-                    Add to Cart
-                  </button>
-                </div>
-                <form onSubmit={this.handleSubmit}>
-                  <button
-                    type="submit"
-                    className={styles["aside-right-button-2"]}
-                  >
-                    Save Change
-                  </button>
-                </form>
-              </aside>
-            </div>
-          </section>
-          <Footer padding="202px" />
+                  <form onSubmit={this.handleSubmit}>
+                    <button
+                      type="submit"
+                      className={styles["aside-right-button-2"]}
+                    >
+                      Save Change
+                    </button>
+                  </form>
+                </aside>
+              </div>
+            </section>
+            <Footer padding="202px" />
+          </main>
         </main>
       </Fragment>
     );

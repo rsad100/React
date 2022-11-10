@@ -7,6 +7,20 @@
   font-family: Rubik;
 }
 
+.body-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.container-fluid {
+  background-color: white;
+}
+
+.body-2 {
+  background-color: #bcbaba;
+  height: 445vh;
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -177,6 +191,7 @@
 }
 
 .section-3 {
+  background-color: #ffffff;
   display: flex;
   justify-content: space-evenly;
   padding-top: 193px;
@@ -216,6 +231,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 80px;
+  background-color: #ffffff;
 }
 
 .section-4-header {
@@ -322,6 +338,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 233px;
+  background-color: #ffffff;
 }
 
 .section-5-header {

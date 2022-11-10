@@ -1,7 +1,18 @@
 .section-main {
+  background-color: #ffffff;
+  padding-top: 38px;
   padding-left: 10%;
   padding-right: 10%;
   padding-bottom: 58px;
+}
+
+.main {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.main-2 {
+  background-color: #bcbaba;
 }
 
 .none {
@@ -63,7 +74,7 @@
 .aside-right {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 49%;
 }
 
 .aside-right-header {
@@ -319,5 +330,9 @@
     margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+  }
+
+  .aside-right {
+    width: 100%;
   }
 }

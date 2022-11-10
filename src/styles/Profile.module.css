@@ -12,10 +12,21 @@
   font-family: "Rubik";
 }
 
+.body-2 {
+  height: 168vh;
+  background-color: #bcbaba;
+}
+
+.body-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
 .nav-bar {
+  background-color: #ffffff;
   display: flex;
-  margin-left: 10%;
-  margin-right: 10%;
+  padding-left: 10%;
+  padding-right: 10%;
   justify-content: space-between;
   align-items: center;
   height: 157px;
@@ -513,8 +524,8 @@
   .nav-bar {
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-left: 5%;
-    margin-right: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
     height: 150px;
     flex-direction: column;
     justify-content: space-around;

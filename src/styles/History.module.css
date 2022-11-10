@@ -8,6 +8,15 @@
   padding-bottom: 97px;
 }
 
+.main-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.main-2 {
+  background-color: #bcbaba;
+}
+
 .section-center-header {
   text-align: center;
   font-weight: 700;
