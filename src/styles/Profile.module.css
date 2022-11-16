@@ -116,6 +116,10 @@
   opacity: 0.5;
 }
 
+.search-bar-input:focus {
+  outline: none;
+}
+
 .nav-image {
   height: 33px;
   width: 30px;
@@ -345,9 +349,16 @@
   margin-right: auto;
 }
 
+.input-text {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 25px;
+  padding-bottom: 11px;
+}
+
 .label {
   margin-top: 20px;
-  padding: 5px;
+  padding-bottom: 10px;
   color: #9f9f9f;
   font-size: 20px;
   font-weight: 500;
@@ -416,6 +427,9 @@
   border: none;
   border-bottom: 1px solid;
   padding-bottom: 10px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 25px;
 }
 
 .gender-btn-1 {

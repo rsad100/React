@@ -20,7 +20,7 @@ class CardPromos extends Component {
         }`}
         onClick={() => {
           if (this.role === "admin") {
-            this.props.navigate(`/EditPromo/${this.props.keys}`);
+            this.props.navigate(`/promo/edit/${this.props.keys}`);
           }
         }}
       >

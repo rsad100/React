@@ -67,7 +67,7 @@ class History extends Component {
                       img={transaction.image_product}
                       name={transaction.name_product}
                       price={`IDR ${transaction.price * transaction.amount}`}
-                      status="Pending"
+                      status={transaction.status}
                     />
                   );
                 })}

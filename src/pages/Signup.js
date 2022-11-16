@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Axios from "axios";
 import styles from "../styles/Signup.module.css";
+import Swal from "sweetalert2";
 
 import signupBackground from "../assets/signup-background.webp";
 import coffee from "../assets/coffee 1.png";
@@ -32,6 +33,7 @@ class Signups extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/register`;
     const data = {
       phone_number: this.state.phone,
@@ -41,15 +43,31 @@ class Signups extends Component {
     Axios.post(url, data)
       .then((res) => {
         console.log(res.data.msg);
+        Swal.fire({
+          title: "Register Success!",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            this.props.navigate("/Login");
+          }
+        });
       })
-      .catch((err) => console.log(err));
-    event.preventDefault();
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Email or phone number already exist",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+      });
   }
 
   render() {
-    console.log(`email ${this.state.email}`);
-    console.log(`password ${this.state.password}`);
-    console.log(`phone ${this.state.phone}`);
+    // console.log(`email ${this.state.email}`);
+    // console.log(`password ${this.state.password}`);
+    // console.log(`phone ${this.state.phone}`);
     return (
       <Fragment>
         <main className={styles["main-2"]}>

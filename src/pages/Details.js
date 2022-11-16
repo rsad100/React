@@ -18,7 +18,7 @@ import withRouteParams from "../helpers/withSearchParams";
 class Detailss extends Component {
   constructor(props) {
     super(props);
-    this.id = Number(window.location.href.split("/")[4]);
+    this.id = Number(window.location.href.split("/")[5]);
     // console.log(this.id);
     this.state = {
       products: [],
@@ -175,7 +175,7 @@ class Detailss extends Component {
                     <div
                       className={styles["aside-right-div-7"]}
                       onClick={() => {
-                        this.props.navigate(`/EditProduct/${this.id}`);
+                        this.props.navigate(`/product/edit/${this.id}`);
                       }}
                     >
                       Edit Product

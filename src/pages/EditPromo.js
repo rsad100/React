@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/EditPromo.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import Swal from "sweetalert2";
 
 // import photo from "../assets/photo.png";
 // import spaghetti from "../assets/spaghetti.png";
@@ -38,7 +39,7 @@ class EditPromos extends Component {
 
     const token = localStorage.getItem("token");
     this.info = jwt(token);
-    this.id = Number(window.location.href.split("/")[4]);
+    this.id = Number(window.location.href.split("/")[5]);
 
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/`;
     Axios.get(url)
@@ -81,7 +82,7 @@ class EditPromos extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.id = Number(window.location.href.split("/")[4]);
+    this.id = Number(window.location.href.split("/")[5]);
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/promos/${this.id}`;
     let formdata = new FormData();
     // console.log(this.state.name);
@@ -115,7 +116,16 @@ class EditPromos extends Component {
     Axios.patch(url, body)
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        Swal.fire({
+          title: "Data Changed Successfully!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            window.location.reload();
+          }
+        });
       })
       .catch((err) => console.log(err));
   }
@@ -125,7 +135,7 @@ class EditPromos extends Component {
     // console.log(this.state.promos);
     // console.log(this.state.products);
     // console.log(this.id);
-    console.log(this.state.desc);
+    // console.log(this.state.desc);
     return (
       <Fragment>
         <main className={styles["main-2"]}>

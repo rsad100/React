@@ -6,6 +6,25 @@
   padding-bottom: 146px;
 }
 
+.buttons {
+  margin-top: 30px;
+  column-gap: 20px;
+  justify-content: center;
+  display: flex;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: #ffba33;
+  color: black;
+  cursor: pointer;
+}
+
 .section-center-2 {
   margin-top: 41px;
   display: flex;

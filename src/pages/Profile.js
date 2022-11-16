@@ -5,6 +5,7 @@ import Axios from "axios";
 import jwt from "jwt-decode";
 
 import pen from "../assets/pen.png";
+// import def from "../assets/default.jpg";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
@@ -49,6 +50,18 @@ class Profiles extends Component {
       .then((res) => {
         this.setState({
           userData: res.data.result,
+          address: res.data.result.find((item) => item.id_user === this.id)
+            .address,
+          display: res.data.result.find((item) => item.id_user === this.id)
+            .display_name,
+          first: res.data.result.find((item) => item.id_user === this.id)
+            .first_name,
+          last: res.data.result.find((item) => item.id_user === this.id)
+            .last_name,
+          birth: res.data.result.find((item) => item.id_user === this.id)
+            .birthday,
+          gender: res.data.result.find((item) => item.id_user === this.id)
+            .gender,
         });
         // console.log(res.data.result);
       })
@@ -59,6 +72,9 @@ class Profiles extends Component {
       .then((res) => {
         this.setState({
           user: res.data.result,
+          email: res.data.result.find((item) => item.id_user === this.id).email,
+          mobile: res.data.result.find((item) => item.id_user === this.id)
+            .phone_number,
         });
         // console.log(res.data.result);
       })
@@ -140,7 +156,9 @@ class Profiles extends Component {
     //   .catch((err) => console.log(err));
     this.props.dispatch(profileActions.patchProfileAction(url, body));
     this.props.dispatch(profileActions2.patchProfileAction2(url2, body2));
-    // window.location.reload();
+    setTimeout(function () {
+      window.location.reload();
+    }, 1000);
   }
 
   render() {
@@ -177,7 +195,13 @@ class Profiles extends Component {
                         <img
                           className={styles["profile-picture"]}
                           src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
-                          alt="profile-img"
+                          alt={"profile-img"}
+                          onError={(e) =>
+                            (e.target.onerror = null)(
+                              (e.target.src =
+                                "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg")
+                            )
+                          }
                         />
                         <div>
                           <p className={styles["left-aside-header"]}>
@@ -282,14 +306,17 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 Email Address :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data2?.email}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
                                 className={styles["input"]}
                                 type="text"
-                                placeholder={this.data2?.email}
+                                placeholder={"Input your email"}
                                 value={this.state.email}
                                 onChange={(event) =>
                                   this.handleChange(event, "email")
@@ -302,14 +329,17 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 Delivery adress :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data?.address}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
                                 className={styles["input"]}
                                 type="text"
-                                placeholder={this.data?.address}
+                                placeholder={"Input your address"}
                                 value={this.state.address}
                                 onChange={(event) =>
                                   this.handleChange(event, "address")
@@ -322,7 +352,10 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 Mobile Number :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data2?.phone_number}
                               </div>
                               <input
@@ -347,7 +380,10 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 Display name :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data?.display_name}
                               </div>
                               <input
@@ -367,7 +403,10 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 First name :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data?.first_name}
                               </div>
                               <input
@@ -387,7 +426,10 @@ class Profiles extends Component {
                               <label className={styles["label"]}>
                                 Last name :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data?.last_name}
                               </div>
                               <input
@@ -405,15 +447,18 @@ class Profiles extends Component {
                               className={styles["aside-center-left-left-div"]}
                             >
                               <label className={styles["label"]}>
-                                DD/MM/YY :
+                                YY/MM/DD :
                               </label>
-                              <div style={{ display: this.state.hide1 }}>
+                              <div
+                                className={styles["input-text"]}
+                                style={{ display: this.state.hide1 }}
+                              >
                                 {this.data?.birthday}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
                                 className={styles["input"]}
-                                type="tel"
+                                type="date"
                                 placeholder="Enter your birthday"
                                 value={this.state.birth}
                                 onChange={(event) =>

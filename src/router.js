@@ -16,6 +16,7 @@ import EditPromo from "./pages/EditPromo";
 import Dashboard from "./pages/Dashboard";
 import Order from "./pages/Order";
 import PrivateElement from "./components/PrivateElement";
+import PrivateElementUser from "./components/PrivateElementUser";
 
 const router = createBrowserRouter([
   { path: "/Signup", element: <Signup /> },
@@ -23,9 +24,13 @@ const router = createBrowserRouter([
   { path: "/Home", element: <Home /> },
   {
     path: "/Profile/:id",
-    element: <Profile />,
+    element: (
+      <PrivateElementUser>
+        <Profile />
+      </PrivateElementUser>
+    ),
   },
-  { path: "/Product", element: <Product /> },
+  { path: "/Product/", element: <Product /> },
   {
     path: "/Dashboard",
     element: (
@@ -43,11 +48,25 @@ const router = createBrowserRouter([
     ),
   },
   { path: "/Forgot", element: <Forgot /> },
-  { path: "/Payment", element: <Payment /> },
-  { path: "/History", element: <History /> },
-  { path: "/Details/:id", element: <Details /> },
   {
-    path: "/EditProduct/:id",
+    path: "/Payment",
+    element: (
+      <PrivateElementUser>
+        <Payment />
+      </PrivateElementUser>
+    ),
+  },
+  {
+    path: "/History",
+    element: (
+      <PrivateElementUser>
+        <History />
+      </PrivateElementUser>
+    ),
+  },
+  { path: "/product/Details/:id", element: <Details /> },
+  {
+    path: "/product/edit/:id",
     element: (
       <PrivateElement allowedRoles={["admin"]}>
         <EditProduct />
@@ -55,7 +74,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/NewProduct",
+    path: "/Product/new",
     element: (
       <PrivateElement>
         <NewProduct />
@@ -63,7 +82,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/NewPromo",
+    path: "/promo/new",
     element: (
       <PrivateElement>
         <NewPromo />
@@ -71,7 +90,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/EditPromo/:id",
+    path: "/promo/edit/:id",
     element: (
       <PrivateElement>
         <EditPromo />

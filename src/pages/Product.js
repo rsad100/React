@@ -11,6 +11,7 @@ import CardPromo from "../components/CardPromo";
 
 import productActions from "../redux/actions/products";
 import withNavigate from "../helpers/withNavigate";
+import withSearchParams from "../helpers/withSearchParams";
 
 class Product extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Product extends Component {
       categoryNon: "term-text",
       categoryAdd: "term-text",
       searchValue: "",
-      filter: "filter=Coffee",
+      filter: "&filter=Coffee",
       display: "block",
       sort: "&sort=cheap",
       limit: "&limit=12",
@@ -43,6 +44,13 @@ class Product extends Component {
     event.preventDefault();
     const url3 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?${this.state.filter}&keyword=${this.state.searchValue}${this.state.sort}`;
     this.props.dispatch(productActions.getProductAction(url3));
+    this.props.setSearchParams(
+      this.state.page +
+        this.state.limit +
+        this.state.filter +
+        this.state.sort +
+        `&keyword=${this.state.searchValue}`
+    );
     // Axios.get(url3)
     //   .then((res) => {
     //     this.setState({
@@ -57,9 +65,17 @@ class Product extends Component {
   componentDidMount() {
     document.title = "Products";
     const token = localStorage.getItem("token");
+    this.props.setSearchParams(
+      this.state.page + this.state.limit + this.state.filter + this.state.sort
+    );
+
+    if (!token) {
+      this.setState({ display: "none" });
+    }
 
     if (token) {
       this.info = jwt(token);
+
       if (this.info.role === "admin") {
         this.setState({ display: "block" });
       } else this.setState({ display: "none" });
@@ -151,7 +167,7 @@ class Product extends Component {
                     style={{ display: this.state.display }}
                     className={styles["header-edit"]}
                     onClick={() => {
-                      this.props.navigate("/NewPromo");
+                      this.props.navigate("/promo/new");
                     }}
                   >
                     Add new promo
@@ -171,6 +187,12 @@ class Product extends Component {
                             categoryAdd: "term-text",
                             filter: "filter=Fav",
                           });
+                          this.props.setSearchParams(
+                            this.state.page +
+                              this.state.limit +
+                              "&filter=Fav" +
+                              this.state.sort
+                          );
                           this.props.dispatch(
                             productActions.getProductAction(url)
                           );
@@ -191,6 +213,12 @@ class Product extends Component {
                           categoryAdd: "term-text",
                           filter: "filter=Coffee",
                         });
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            "&filter=Coffee" +
+                            this.state.sort
+                        );
                         this.props.dispatch(
                           productActions.getProductAction(url)
                         );
@@ -213,6 +241,12 @@ class Product extends Component {
                           categoryAdd: "term-text",
                           filter: "filter=Non",
                         });
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            "&filter=Non" +
+                            this.state.sort
+                        );
                       }}
                     >
                       Non Coffee
@@ -232,6 +266,12 @@ class Product extends Component {
                           categoryAdd: "term-text",
                           filter: "filter=Food",
                         });
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            "&filter=Food" +
+                            this.state.sort
+                        );
                       }}
                     >
                       Foods
@@ -251,6 +291,12 @@ class Product extends Component {
                           categoryAdd: "term-text-2",
                           filter: "filter=Add",
                         });
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            "&filter=Add" +
+                            this.state.sort
+                        );
                       }}
                     >
                       Add-on
@@ -269,6 +315,12 @@ class Product extends Component {
                         this.props.dispatch(
                           productActions.getProductAction(url)
                         );
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            this.state.filter +
+                            "&sort=pricey"
+                        );
                       }}
                     ></div>
                     <p>Expensive</p>
@@ -283,6 +335,12 @@ class Product extends Component {
                         const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/?${this.state.filter}&sort=cheap${this.state.limit}${this.state.page}`;
                         this.props.dispatch(
                           productActions.getProductAction(url)
+                        );
+                        this.props.setSearchParams(
+                          this.state.page +
+                            this.state.limit +
+                            this.state.filter +
+                            "&sort=cheap"
                         );
                       }}
                     ></div>
@@ -303,7 +361,7 @@ class Product extends Component {
                             />
                           );
                         })
-                      : "Loading"}
+                      : "Loading..."}
                   </section>
                   <div className={styles["page-div"]}>
                     <div
@@ -317,6 +375,9 @@ class Product extends Component {
                         this.props.dispatch(
                           productActions.getProductAction(url)
                         );
+                        const params =
+                          this.props.products.previous.split("/")[4];
+                        this.props.setSearchParams(params);
                       }}
                     >
                       {"<"}
@@ -328,6 +389,8 @@ class Product extends Component {
                         this.props.dispatch(
                           productActions.getProductAction(url)
                         );
+                        const params = this.props.products.next.split("/")[4];
+                        this.props.setSearchParams(params);
                         // console.log(this.props.products.next);
                       }}
                     >
@@ -347,7 +410,7 @@ class Product extends Component {
                     style={{ display: this.state.display }}
                     className={styles["header-edit-3"]}
                     onClick={() => {
-                      this.props.navigate("/NewProduct");
+                      this.props.navigate("/Product/new");
                     }}
                   >
                     Add new product
@@ -369,4 +432,6 @@ const mapStateToProps = (reduxState) => {
   };
 };
 
-export default connect(mapStateToProps)(withNavigate(Product));
+export default connect(mapStateToProps)(
+  withSearchParams(withNavigate(Product))
+);

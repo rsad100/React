@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/EditProduct.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import Swal from "sweetalert2";
 
 import chevronLeft from "../assets/line-left.png";
 import chevronRight from "../assets/line-right.png";
@@ -14,7 +15,7 @@ import withSearchParams from "../helpers/withSearchParams";
 class EditProducts extends Component {
   constructor(props) {
     super(props);
-    this.id = Number(window.location.href.split("/")[4]);
+    this.id = Number(window.location.href.split("/")[5]);
     // console.log(this.id);
     this.state = {
       products: [],
@@ -38,6 +39,12 @@ class EditProducts extends Component {
       .then((res) => {
         this.setState({
           products: res.data.result,
+          name: res.data.result.find((item) => item.id_product === this.id)
+            .name_product,
+          price: res.data.result.find((item) => item.id_product === this.id)
+            .price,
+          desc: res.data.result.find((item) => item.id_product === this.id)
+            .desc_product,
         });
       })
       .catch((err) => console.log(err));
@@ -49,7 +56,7 @@ class EditProducts extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.id = Number(window.location.href.split("/")[4]);
+    this.id = Number(window.location.href.split("/")[5]);
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/${this.id}`;
     let formdata = new FormData();
     // console.log(this.state.name);
@@ -76,7 +83,16 @@ class EditProducts extends Component {
     Axios.patch(url, body)
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        Swal.fire({
+          title: "Data Changed Successfully!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            window.location.reload();
+          }
+        });
       })
       .catch((err) => console.log(err));
   }
@@ -150,7 +166,7 @@ class EditProducts extends Component {
                 <aside className={styles["aside-right"]}>
                   <input
                     type="text"
-                    placeholder={this.data?.name_product}
+                    placeholder={"Input product name here"}
                     className={styles["aside-right-header"]}
                     value={this.state.name}
                     onChange={(event) => this.handleChange(event, "name")}
@@ -164,8 +180,8 @@ class EditProducts extends Component {
                     IDR{" "}
                     <input
                       type="text"
-                      placeholder={this.data?.price}
-                      className={styles["aside-right-text-1"]}
+                      placeholder={"Input price here"}
+                      className={styles["aside-right-text-1-1"]}
                       value={this.state.price}
                       onChange={(event) => this.handleChange(event, "price")}
                     />
@@ -173,7 +189,7 @@ class EditProducts extends Component {
                   <div className={styles["line"]}></div>
                   <input
                     type="text"
-                    placeholder={this.data?.desc_product}
+                    placeholder={"Input product description here"}
                     className={styles["aside-right-text-2"]}
                     value={this.state.desc}
                     onChange={(event) => this.handleChange(event, "desc")}

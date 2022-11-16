@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/NewPromo.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import Swal from "sweetalert2";
 
 import photo from "../assets/photo.png";
 // import chevronLeft from "../assets/line-left.png";
@@ -26,7 +27,7 @@ class NewPromos extends Component {
       end: "",
       code: "",
       name: "",
-      price: "",
+      price: "1",
       desc: "",
       size: "R, L, XL",
       delivery: "Home Delivery, Dine in, Take away",
@@ -93,9 +94,30 @@ class NewPromos extends Component {
     Axios.post(url, body)
       .then((res) => {
         console.log(res);
-        this.props.navigate("/Product");
+        Swal.fire({
+          title: "New promo added successfully!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            this.props.navigate("/Product");
+          }
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Data not valid!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // this.props.navigate("/Product");
+          }
+        });
+      });
   }
 
   handleChange(event, field) {
@@ -163,27 +185,7 @@ class NewPromos extends Component {
                       onChange={(event) => this.handleChange(event, "discount")}
                     ></input>
                   </div>
-                  <h1 className={styles["aside-left-header-2"]}>
-                    Expire date :
-                  </h1>
-                  <div className={styles["dropdown"]}>
-                    <input
-                      className={styles["dropbtn"]}
-                      type={"text"}
-                      placeholder={"Input start date"}
-                      value={this.state.start}
-                      onChange={(event) => this.handleChange(event, "start")}
-                    ></input>
-                  </div>
-                  <div className={styles["dropdown"]}>
-                    <input
-                      className={styles["dropbtn"]}
-                      type={"text"}
-                      placeholder={"Input end date"}
-                      value={this.state.end}
-                      onChange={(event) => this.handleChange(event, "end")}
-                    ></input>
-                  </div>
+
                   <h1 className={styles["aside-left-header-3"]}>
                     Input coupon code :
                   </h1>
@@ -200,30 +202,51 @@ class NewPromos extends Component {
                 <aside className={styles["aside-right"]}>
                   <h1 className={styles["aside-right-header-1"]}>Name :</h1>
                   <input
-                    className={styles["aside-right-input-1"]}
+                    className={styles["dropbtn"]}
                     type={"text"}
                     placeholder={"Type product name min.50 characters"}
                     value={this.state.name}
                     onChange={(event) => this.handleChange(event, "name")}
                   ></input>
-                  <h1 className={styles["aside-right-header-1"]}>Price :</h1>
+                  {/* <h1 className={styles["aside-right-header-1"]}>Price :</h1>
                   <input
                     className={styles["aside-right-input-1"]}
                     type={"text"}
                     placeholder={"Type the price"}
                     value={this.state.price}
                     onChange={(event) => this.handleChange(event, "price")}
-                  ></input>
-                  <h1 className={styles["aside-right-header-1"]}>
+                  ></input> */}
+                  <h1 className={styles["aside-right-header-1-1"]}>
                     Description :
                   </h1>
                   <input
-                    className={styles["aside-right-input-1"]}
+                    className={styles["dropbtn"]}
                     type={"text"}
                     placeholder={"Describe your product min.150 characters"}
                     value={this.state.desc}
                     onChange={(event) => this.handleChange(event, "desc")}
                   ></input>
+                  <h1 className={styles["aside-left-header-2"]}>
+                    Expire date :
+                  </h1>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      className={styles["dropbtn"]}
+                      type={"date"}
+                      placeholder={"Input start date"}
+                      value={this.state.start}
+                      onChange={(event) => this.handleChange(event, "start")}
+                    ></input>
+                  </div>
+                  <div className={styles["dropdown"]}>
+                    <input
+                      className={styles["dropbtn"]}
+                      type={"date"}
+                      placeholder={"Input end date"}
+                      value={this.state.end}
+                      onChange={(event) => this.handleChange(event, "end")}
+                    ></input>
+                  </div>
                   {/* <h1 className={styles["aside-right-header-1"]}>
                   Input product size :
                 </h1>

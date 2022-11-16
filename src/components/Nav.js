@@ -64,7 +64,7 @@ class Navigate extends Component {
           <p
             className={styles[this.props.product]}
             onClick={() => {
-              this.props.navigate("/product");
+              this.props.navigate("/product/");
             }}
           >
             Product
@@ -155,6 +155,12 @@ class Navigate extends Component {
               }}
               src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
               alt="profile-img"
+              onError={(e) =>
+                (e.target.onerror = null)(
+                  (e.target.src =
+                    "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg")
+                )
+              }
             />
           </section>
         )}

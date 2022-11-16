@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/NewProduct.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import Swal from "sweetalert2";
 
 import photo from "../assets/photo.png";
 // import chevronLeft from "../assets/line-left.png";
@@ -91,9 +92,30 @@ class NewProducts extends Component {
     Axios.post(url, body)
       .then((res) => {
         console.log(res);
-        this.props.navigate("/Product");
+        Swal.fire({
+          title: "New product added successfully!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            this.props.navigate("/Product");
+          }
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Data not valid!",
+          timer: 1000,
+          showConfirmButton: false,
+          // timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // this.props.navigate("/Product");
+          }
+        });
+      });
   }
 
   handleChange(event, field) {

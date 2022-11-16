@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Axios from "axios";
 import styles from "../styles/Login.module.css";
+import Swal from "sweetalert2";
 
 import signupBackground from "../assets/signup-background.webp";
 import coffee from "../assets/coffee 1.png";
@@ -8,6 +9,7 @@ import google from "../assets/iconGoogle.png";
 import facebook from "../assets/facebook-vector.png";
 import twitter from "../assets/twitter-vector.png";
 import instagram from "../assets/instagram-vector.png";
+import eye from "../assets/eye.png";
 
 import withNavigate from "../helpers/withNavigate";
 
@@ -45,9 +47,25 @@ class Logins extends Component {
     Axios.post(url, data)
       .then((res) => {
         localStorage.setItem("token", res.data.data.token);
-        this.props.navigate("/home");
+        Swal.fire({
+          title: "Login Success",
+          timer: 2000,
+          showConfirmButton: false,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            this.props.navigate("/home");
+          }
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Wrong password or email",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      });
 
     event.preventDefault();
   }
@@ -109,6 +127,12 @@ class Logins extends Component {
                       value={this.state.password}
                       onChange={(event) => this.handleChange(event, "password")}
                     />
+                    <img
+                      className={styles["eye"]}
+                      src={eye}
+                      alt="eye"
+                      onClick={this.toggleShow}
+                    />
                   </div>
                   <div className={styles["password"]}>
                     <p
@@ -119,10 +143,10 @@ class Logins extends Component {
                     >
                       Forgot password?
                     </p>
-                    <div className={styles["show-password"]}>
+                    {/* <div className={styles["show-password"]}>
                       <input type="checkbox" onClick={this.toggleShow}></input>
                       <p className={styles["forgot-pass"]}>Show Password</p>
-                    </div>
+                    </div> */}
                   </div>
                   <button
                     className={`${styles["btn"]} ${styles["primary"]}`}

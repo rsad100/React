@@ -3,12 +3,12 @@ import { Navigate } from "react-router-dom";
 import jwt from "jwt-decode";
 
 // props.children => mengakses komponen child
-class PrivateElement extends React.Component {
+class PrivateElementUser extends React.Component {
   render() {
     // conditional, jika true semua maka return kan komponen child
     // jika false, maka redirect
     // kondisi 1 = apakah sudah login
-    const { allowedRoles = ["admin"], children } = this.props;
+    const { allowedRoles = ["user", "admin"], children } = this.props;
     const token = localStorage.getItem("token");
     if (token) {
       this.info = jwt(token);
@@ -38,4 +38,4 @@ class PrivateElement extends React.Component {
   }
 }
 
-export default PrivateElement;
+export default PrivateElementUser;

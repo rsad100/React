@@ -66,6 +66,8 @@ class Payments extends Component {
       amount: localStorage.getItem("amount_product"),
       id_user: this.id,
       id_payment: this.state.payment,
+      status: "pending",
+      size: localStorage.getItem("size_product"),
     };
     Axios.post(url, body)
       .then((res) => {
