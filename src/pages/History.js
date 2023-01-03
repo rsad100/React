@@ -22,10 +22,9 @@ class History extends Component {
     if (token) {
       this.info = jwt(token);
       this.id = this.info.user_id;
-      // console.log(this.id);
     }
 
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/${this.id}`;
     Axios.get(url)
       .then((res) => {
         this.setState({
@@ -37,10 +36,6 @@ class History extends Component {
   }
 
   render() {
-    this.data = this.state.transactions.filter(
-      (item) => item.id_user === this.id
-    );
-    console.log(this.data);
     return (
       <Fragment>
         <main className={styles["main-2"]}>
@@ -60,7 +55,7 @@ class History extends Component {
               </p>
               <p className={styles["section-center-text"]}>Select All</p>
               <section className={styles["section-center-2"]}>
-                {this.data?.map((transaction) => {
+                {this.state.transactions.map((transaction) => {
                   return (
                     <CardHistory
                       amount={transaction.amount}

@@ -4,7 +4,7 @@ import actionStrings from "../actions/actionStrings";
 
 const initialState = {
   // default value
-  number: 0,
+  number: 1,
 };
 
 const counterReducer = (prevState = initialState, action) => {

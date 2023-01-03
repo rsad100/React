@@ -37,7 +37,7 @@ class Detailss extends Component {
     if (token) {
       this.info = jwt(token);
     }
-
+    console.log(localStorage.getItem("Cart"));
     const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/products/`;
     Axios.get(url)
       .then((res) => {
@@ -148,24 +148,38 @@ class Detailss extends Component {
                   <button
                     className={styles["aside-right-div-6"]}
                     onClick={() => {
-                      localStorage.setItem(
-                        "name_product",
-                        this.data?.name_product
-                      );
-                      localStorage.setItem(
-                        "image_product",
-                        `https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`
-                      );
-                      localStorage.setItem(
-                        "amount_product",
-                        this.props.counter.number
-                      );
-                      localStorage.setItem(
-                        "price_product",
-                        this.data?.price * this.state.multiplier
-                      );
-                      localStorage.setItem("id_product", this.id);
-                      localStorage.setItem("size_product", this.state.size);
+                      // localStorage.setItem(
+                      //   "name_product",
+                      //   this.data?.name_product
+                      // );
+                      // localStorage.setItem(
+                      //   "image_product",
+                      //   `https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`
+                      // );
+                      // localStorage.setItem(
+                      //   "amount_product",
+                      //   this.props.counter.number
+                      // );
+                      // localStorage.setItem(
+                      //   "price_product",
+                      //   this.data?.price * this.state.multiplier
+                      // );
+                      // localStorage.setItem("id_product", this.id);
+                      // localStorage.setItem("size_product", this.state.size);
+                      if (localStorage.getItem("Cart") === null) {
+                        localStorage.setItem("Cart", JSON.stringify([]));
+                      }
+                      const newCart = {
+                        name_product: this.data?.name_product,
+                        image_product: `https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.data?.image_product}`,
+                        amount_product: this.props.counter.number,
+                        price_product: this.data?.price * this.state.multiplier,
+                        size_product: this.state.size,
+                        id_product: this.data?.id_product,
+                      };
+                      var oldCart = JSON.parse(localStorage.getItem("Cart"));
+                      oldCart.push(newCart);
+                      localStorage.setItem("Cart", JSON.stringify(oldCart));
                       window.location.reload();
                     }}
                   >
@@ -239,21 +253,33 @@ class Detailss extends Component {
                     </div>
                   </div>
                   <div className={styles["section-3-div-3"]}>
-                    <div className={styles["section-3-div-5"]}>
-                      <img
-                        className={styles["section-3-img"]}
-                        src={localStorage.getItem("image_product")}
-                        alt="img"
-                      />
-                      <div>
-                        <h1 className={styles["section-3-header-1"]}>
-                          {localStorage.getItem("name_product")}
-                        </h1>
-                        <p className={styles["section-3-text-2"]}>
-                          x{localStorage.getItem("amount_product")} (
-                          {localStorage.getItem("size_product")})
-                        </p>
-                      </div>
+                    <div className={styles["section-3-div-6"]}>
+                      {localStorage.getItem("Cart") === null ||
+                      localStorage.getItem("Cart") === "[]" ? (
+                        <div className={styles["section-3-text-4"]}>
+                          <p>Your cart is empty</p>
+                        </div>
+                      ) : (
+                        JSON.parse(localStorage.getItem("Cart")).map((item) => {
+                          return (
+                            <div className={styles["section-3-div-5"]}>
+                              <img
+                                className={styles["section-3-img"]}
+                                src={item.image_product}
+                                alt="img"
+                              />
+                              <div>
+                                <h1 className={styles["section-3-header-1"]}>
+                                  {item.name_product}
+                                </h1>
+                                <p className={styles["section-3-text-2"]}>
+                                  x{item.amount_product} ({item.size_product})
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
                     </div>
                     <div className={styles["section-3-div-4"]}>
                       <p className={styles["section-3-text-3"]}>Checkout</p>

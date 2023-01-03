@@ -16,44 +16,42 @@ import withNavigate from "../helpers/withNavigate";
 class Order extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: undefined,
-      name_product: undefined,
-      number: 0,
-      size: undefined,
-      image: undefined,
-      status: undefined,
-      id: undefined,
-    };
+    this.state = { transaction: [], subtransaction: [], number: 0 };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     document.title = "Orders";
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/all`;
     Axios.get(url)
       .then((res) => {
+        console.log(res.data.result);
         this.setState({
-          name: res.data.result[this.state.number].display_name,
-          name_product: res.data.result[this.state.number].name_product,
-          amount: res.data.result[this.state.number].amount,
-          size: res.data.result[this.state.number].size,
-          price: res.data.result[this.state.number].price,
-          image: res.data.result[this.state.number].image_product,
-          status: res.data.result[this.state.number].status,
-          id: res.data.result[this.state.number].id_transaction,
+          transaction: res.data.result,
         });
+        const url2 = `${
+          process.env.REACT_APP_BACKEND_HOST
+        }/api/v1/transactionsnew/sub/${
+          res.data.result[this.state.number].id_transaction_new
+        }`;
+        Axios.get(url2)
+          .then((res) => {
+            console.log(res.data.result);
+            this.setState({
+              subtransaction: res.data.result,
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions/${this.state.id}`;
-    const body = {
-      status: "Done",
-    };
-    Axios.patch(url, body)
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/${
+      this.state.transaction[this.state.number].id_transaction_new
+    }`;
+    Axios.patch(url)
       .then((res) => {
         console.log(res.data.result);
         Swal.fire({
@@ -126,34 +124,41 @@ class Order extends Component {
                   <div className={styles["aside-left-1"]}></div>
                   <aside className={styles["aside-left"]}>
                     <h1 className={styles["aside-left-header"]}>
-                      Dine in for {this.state.name}
+                      Dine in for{" "}
+                      {this.state.transaction[this.state.number]?.display_name}
                     </h1>
                     <p className={styles["aside-left-text-4"]}>
-                      {this.state.status}
+                      {this.state.transaction[this.state.number]?.status}
                     </p>
-                    <div className={styles["aside-left-div"]}>
-                      <div className={styles["aside-left-div-div"]}>
-                        <img
-                          className={styles["aside-left-image"]}
-                          src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${this.state.image}`}
-                          alt="hazelnut"
-                        />
-                        <div className={styles["aside-left-header-div-div"]}>
+                    {this.state.subtransaction.map((item) => {
+                      return (
+                        <div className={styles["aside-left-div"]}>
+                          <div className={styles["aside-left-div-div"]}>
+                            <img
+                              className={styles["aside-left-image"]}
+                              src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v1667258032${item.image_product}`}
+                              alt="hazelnut"
+                            />
+                            <div
+                              className={styles["aside-left-header-div-div"]}
+                            >
+                              <p className={styles["aside-left-text-1"]}>
+                                {item.name_product}
+                              </p>
+                              <p className={styles["aside-left-text-1"]}>
+                                x{item.amount}
+                              </p>
+                              <p className={styles["aside-left-text-1"]}>
+                                {item.size}
+                              </p>
+                            </div>
+                          </div>
                           <p className={styles["aside-left-text-1"]}>
-                            {this.state.name_product}
-                          </p>
-                          <p className={styles["aside-left-text-1"]}>
-                            x{this.state.amount}
-                          </p>
-                          <p className={styles["aside-left-text-1"]}>
-                            {this.state.size}
+                            IDR {item.price}
                           </p>
                         </div>
-                      </div>
-                      <p className={styles["aside-left-text-1"]}>
-                        IDR {this.state.price}
-                      </p>
-                    </div>
+                      );
+                    })}
                     <div className={styles["aside-left-line"]}></div>
                     <div className={styles["aside-left-div-2"]}>
                       <aside>
@@ -165,10 +170,16 @@ class Order extends Component {
                       </aside>
                       <aside>
                         <p className={styles["aside-left-text-2"]}>
-                          IDR {this.state.price * this.state.amount}
+                          IDR{" "}
+                          {this.state.subtransaction
+                            ?.map((item) => item.price * item.amount)
+                            .reduce((partialSum, a) => partialSum + a, 0)}
                         </p>
                         <p className={styles["aside-left-text-2"]}>
-                          IDR {this.state.price * this.state.amount * 0.1}
+                          IDR{" "}
+                          {this.state.subtransaction
+                            ?.map((item) => item.price * item.amount * 0.1)
+                            .reduce((partialSum, a) => partialSum + a, 0)}
                         </p>
                         <p className={styles["aside-left-text-2"]}>IDR 0</p>
                       </aside>
@@ -177,8 +188,12 @@ class Order extends Component {
                       <p className={styles["aside-left-text-3"]}>TOTAL</p>
                       <p className={styles["aside-left-text-3"]}>
                         IDR{" "}
-                        {this.state.price * this.state.amount +
-                          this.state.price * this.state.amount * 0.1}
+                        {this.state.subtransaction
+                          ?.map((item) => item.price * item.amount)
+                          .reduce((partialSum, a) => partialSum + a, 0) +
+                          this.state.subtransaction
+                            ?.map((item) => item.price * item.amount * 0.1)
+                            .reduce((partialSum, a) => partialSum + a, 0)}
                       </p>
                     </div>
                   </aside>
@@ -186,24 +201,20 @@ class Order extends Component {
                     <div
                       className={styles["button"]}
                       onClick={() => {
-                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions`;
-                        const new_number = this.state.number - 1;
+                        let new_number = 0;
+                        if (this.state.number - 1 < 0) {
+                          new_number = 0;
+                        } else {
+                          new_number = this.state.number - 1;
+                        }
                         this.setState({
                           number: new_number,
                         });
+                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/sub/${this.state.transaction[new_number].id_transaction_new}`;
                         Axios.get(url)
                           .then((res) => {
                             this.setState({
-                              transaction: res.data.result,
-                              name: res.data.result[new_number].display_name,
-                              name_product:
-                                res.data.result[new_number].name_product,
-                              amount: res.data.result[new_number].amount,
-                              size: res.data.result[new_number].size,
-                              price: res.data.result[new_number].price,
-                              image: res.data.result[new_number].image_product,
-                              status: res.data.result[new_number].status,
-                              id: res.data.result[new_number].id_transaction,
+                              subtransaction: res.data.result,
                             });
                           })
                           .catch((err) => console.log(err));
@@ -214,24 +225,23 @@ class Order extends Component {
                     <div
                       className={styles["button"]}
                       onClick={() => {
-                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions`;
-                        const new_number = this.state.number + 1;
+                        let new_number = 0;
+                        if (
+                          this.state.number + 1 >=
+                          this.state.transaction.length
+                        ) {
+                          new_number = this.state.number;
+                        } else {
+                          new_number = this.state.number + 1;
+                        }
                         this.setState({
                           number: new_number,
                         });
+                        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/sub/${this.state.transaction[new_number].id_transaction_new}`;
                         Axios.get(url)
                           .then((res) => {
                             this.setState({
-                              transaction: res.data.result,
-                              name: res.data.result[new_number].display_name,
-                              name_product:
-                                res.data.result[new_number].name_product,
-                              amount: res.data.result[new_number].amount,
-                              size: res.data.result[new_number].size,
-                              price: res.data.result[new_number].price,
-                              image: res.data.result[new_number].image_product,
-                              status: res.data.result[new_number].status,
-                              id: res.data.result[new_number].id_transaction,
+                              subtransaction: res.data.result,
                             });
                           })
                           .catch((err) => console.log(err));

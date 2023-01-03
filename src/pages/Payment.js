@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styles from "../styles/Payment.module.css";
 import jwt from "jwt-decode";
 import Axios from "axios";
+import Swal from "sweetalert2";
 
 import card from "../assets/card.png";
 import check from "../assets/check.png";
@@ -36,8 +37,8 @@ class Payments extends Component {
       // console.log(this.id);
     }
 
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
-    console.log(this.id);
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${this.id}`;
+    // console.log(this.id);
     Axios.get(url)
       .then((res) => {
         this.setState({
@@ -47,7 +48,7 @@ class Payments extends Component {
       })
       .catch((err) => console.log(err));
 
-    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users`;
+    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${this.id}`;
     Axios.get(url2)
       .then((res) => {
         this.setState({
@@ -60,19 +61,49 @@ class Payments extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactions/`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/`;
     const body = {
-      id_product: localStorage.getItem("id_product"),
-      amount: localStorage.getItem("amount_product"),
       id_user: this.id,
+      status: "Pending",
       id_payment: this.state.payment,
-      status: "pending",
-      size: localStorage.getItem("size_product"),
     };
     Axios.post(url, body)
       .then((res) => {
-        console.log(res.data.result);
-        this.props.navigate("/History");
+        // console.log(res.data);
+        const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/`;
+        Axios.get(url)
+          .then((res) => {
+            // console.log(res.data.result[0].max);
+            JSON.parse(localStorage.getItem("Cart")).map((item) => {
+              // console.log(item);
+              const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/transactionsnew/createsub`;
+              const body = {
+                amount: item.amount_product,
+                id_product: item.id_product,
+                id_transaction_new: res.data.result[0].max,
+                size: item.size_product,
+              };
+              // console.log(res.data.result[0].max);
+              Axios.post(url, body)
+                .then((res) => {
+                  // console.log(res.data.result);
+                })
+                .catch((err) => console.log(err));
+            });
+            // console.log("Success!");
+            Swal.fire({
+              title: "Transaction Success",
+              timer: 2000,
+              showConfirmButton: false,
+              timerProgressBar: true,
+            }).then((result) => {
+              if (result.dismiss === Swal.DismissReason.timer) {
+                localStorage.setItem("Cart", JSON.stringify([]));
+                this.props.navigate("/History");
+              }
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
@@ -135,29 +166,36 @@ class Payments extends Component {
                     <h1 className={styles["aside-left-header"]}>
                       Order Summary
                     </h1>
-                    <div className={styles["aside-left-div"]}>
-                      <div className={styles["aside-left-div-div"]}>
-                        <img
-                          className={styles["aside-left-image"]}
-                          src={localStorage.getItem("image_product")}
-                          alt="hazelnut"
-                        />
-                        <div className={styles["aside-left-header-div-div"]}>
+                    {JSON.parse(localStorage.getItem("Cart")).map((item) => {
+                      return (
+                        <div className={styles["aside-left-div"]}>
+                          <div className={styles["aside-left-div-div"]}>
+                            <img
+                              className={styles["aside-left-image"]}
+                              src={item.image_product}
+                              alt="hazelnut"
+                            />
+                            <div
+                              className={styles["aside-left-header-div-div"]}
+                            >
+                              <p className={styles["aside-left-text-1"]}>
+                                {item.name_product}
+                              </p>
+                              <p className={styles["aside-left-text-1"]}>
+                                x {item.amount_product}
+                              </p>
+                              <p className={styles["aside-left-text-1"]}>
+                                {item.size_product}
+                              </p>
+                            </div>
+                          </div>
                           <p className={styles["aside-left-text-1"]}>
-                            {localStorage.getItem("name_product")}
-                          </p>
-                          <p className={styles["aside-left-text-1"]}>
-                            x{localStorage.getItem("amount_product")}
-                          </p>
-                          <p className={styles["aside-left-text-1"]}>
-                            {localStorage.getItem("size_product")}
+                            IDR {item.price_product}
                           </p>
                         </div>
-                      </div>
-                      <p className={styles["aside-left-text-1"]}>
-                        IDR {localStorage.getItem("price_product")}
-                      </p>
-                    </div>
+                      );
+                    })}
+
                     <div className={styles["aside-left-line"]}></div>
                     <div className={styles["aside-left-div-2"]}>
                       <aside>
@@ -170,14 +208,19 @@ class Payments extends Component {
                       <aside>
                         <p className={styles["aside-left-text-2"]}>
                           IDR{" "}
-                          {localStorage.getItem("price_product") *
-                            localStorage.getItem("amount_product")}
+                          {JSON.parse(localStorage.getItem("Cart"))
+                            .map(
+                              (item) => item.price_product * item.amount_product
+                            )
+                            .reduce((partialSum, a) => partialSum + a, 0)}
                         </p>
                         <p className={styles["aside-left-text-2"]}>
                           IDR{" "}
-                          {localStorage.getItem("price_product") *
-                            localStorage.getItem("amount_product") *
-                            0.1}
+                          {JSON.parse(localStorage.getItem("Cart"))
+                            .map(
+                              (item) => item.price_product * item.amount_product
+                            )
+                            .reduce((partialSum, a) => partialSum + a, 0) * 0.1}
                         </p>
                         <p className={styles["aside-left-text-2"]}>IDR 0</p>
                       </aside>
@@ -186,10 +229,16 @@ class Payments extends Component {
                       <p className={styles["aside-left-text-3"]}>TOTAL</p>
                       <p className={styles["aside-left-text-3"]}>
                         IDR{" "}
-                        {localStorage.getItem("price_product") *
-                          localStorage.getItem("amount_product") +
-                          localStorage.getItem("price_product") *
-                            localStorage.getItem("amount_product") *
+                        {JSON.parse(localStorage.getItem("Cart"))
+                          .map(
+                            (item) => item.price_product * item.amount_product
+                          )
+                          .reduce((partialSum, a) => partialSum + a, 0) +
+                          JSON.parse(localStorage.getItem("Cart"))
+                            .map(
+                              (item) => item.price_product * item.amount_product
+                            )
+                            .reduce((partialSum, a) => partialSum + a, 0) *
                             0.1}
                       </p>
                     </div>
@@ -209,11 +258,6 @@ class Payments extends Component {
                         </p>
                       </div>
                       <div className={styles["aside-right-div-2-line"]}></div>
-                      {/* <p className={styles["aside-right-text-2"]}>
-                      Km 5 refinery road oppsite re public road, effurun,
-                      jakarta
-                    </p>
-                    <div className={styles["aside-right-div-2-line"]}></div> */}
                       <p className={styles["aside-right-text-2"]}>
                         {this.data2?.phone_number}
                       </p>

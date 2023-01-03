@@ -54,7 +54,7 @@ class Logins extends Component {
           timerProgressBar: true,
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
-            this.props.navigate("/home");
+            this.props.navigate("/Product");
           }
         });
       })

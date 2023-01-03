@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import styles from "../styles/Profile.module.css";
 import Axios from "axios";
 import jwt from "jwt-decode";
+import Swal from "sweetalert2";
 
 import pen from "../assets/pen.png";
-// import def from "../assets/default.jpg";
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
@@ -13,14 +13,11 @@ import Nav from "../components/Nav";
 import withNavigate from "../helpers/withNavigate";
 
 import profileActions from "../redux/actions/profile";
-import profileActions2 from "../redux/actions/profile2";
 
 class Profiles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: [],
-      user: [],
       email: undefined,
       address: undefined,
       mobile: undefined,
@@ -29,7 +26,8 @@ class Profiles extends Component {
       last: undefined,
       birth: undefined,
       gender: undefined,
-      file: null,
+      image: undefined,
+      file: undefined,
       hide1: "inline",
       hide2: "none",
     };
@@ -44,64 +42,40 @@ class Profiles extends Component {
     const info = jwt(token);
     this.id = info.user_id;
 
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${this.id}`;
     console.log(this.id);
     Axios.get(url)
       .then((res) => {
         this.setState({
-          userData: res.data.result,
           address: res.data.result.find((item) => item.id_user === this.id)
             .address,
-          display: res.data.result.find((item) => item.id_user === this.id)
-            .display_name,
+          display: res.data.result[0].display_name,
           first: res.data.result.find((item) => item.id_user === this.id)
             .first_name,
+          image: `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${res.data.result[0].image_user}`,
           last: res.data.result.find((item) => item.id_user === this.id)
             .last_name,
-          birth: res.data.result.find((item) => item.id_user === this.id)
-            .birthday,
+          birth: res.data.result[0].birthday,
           gender: res.data.result.find((item) => item.id_user === this.id)
             .gender,
+          email: res.data.result[0].email,
+          mobile: res.data.result[0].phone_number,
         });
-        // console.log(res.data.result);
+        console.log(res.data.result[0]);
       })
       .catch((err) => console.log(err));
-
-    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users`;
-    Axios.get(url2)
-      .then((res) => {
-        this.setState({
-          user: res.data.result,
-          email: res.data.result.find((item) => item.id_user === this.id).email,
-          mobile: res.data.result.find((item) => item.id_user === this.id)
-            .phone_number,
-        });
-        // console.log(res.data.result);
-      })
-      .catch((err) => console.log(err));
-    // console.log(this.state.userData);
   }
 
   handleFile(event) {
-    const id = Number(window.location.href.split("/")[4]);
-    let file = event.target.files[0];
-    // this.setState({ file: file });
-    let formdata = new FormData();
-    formdata.append("image_user", file);
-    const data = formdata;
-    console.log(file.name);
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata/${id}`;
-    Axios.patch(url, data, config)
-      .then((res) => {
-        console.log(res);
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
+    if (event.target.files && event.target.files[0]) {
+      this.setState({
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+    this.setState({
+      file: event.target.files[0],
+    });
+    console.log(this.state.image);
   }
 
   handleChange(event, field) {
@@ -118,63 +92,34 @@ class Profiles extends Component {
     event.preventDefault();
     // console.log(this.data);
     const id = Number(window.location.href.split("/")[4]);
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata/${id}`;
-    const url2 = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${id}`;
-    // const url = `https://intermedietebackend.vercel.app/api/v1/userdata/:${this.id}?`;
-    const old_data = {
-      address: this.data?.address,
-      display_name: this.data?.display,
-      first_name: this.data?.first,
-      last_name: this.data?.last,
-      birthday: this.data?.birth,
-      id_user: this.id,
-      gender: this.data?.gender,
-    };
-    const new_data = {
-      address: this.state.address,
-      display_name: this.state.display,
-      first_name: this.state.first,
-      last_name: this.state.last,
-      birthday: this.state.birth,
-      id_user: this.id,
-      gender: this.state.gender,
-    };
-    const body = { ...old_data, ...new_data };
-    const old_Data2 = {
-      email: this.data2?.email,
-      phone_number: this.data2?.phone_number,
-    };
-    const new_data2 = {
-      email: this.state.email,
-      phone_number: this.state.mobile,
-    };
-    const body2 = { ...old_Data2, ...new_data2 };
-    // Axios.patch(url2, body2)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => console.log(err));
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${id}`;
+    const formdata = new FormData();
+    formdata.append("email", this.state.email);
+    formdata.append("address", this.state.address);
+    formdata.append("display_name", this.state.display);
+    formdata.append("first_name", this.state.first);
+    formdata.append("last_name", this.state.last);
+    formdata.append("birthday", this.state.birth);
+    formdata.append("gender", this.state.gender);
+    formdata.append("phone_number", this.state.mobile);
+    if (this.state.file) {
+      formdata.append("image_user", this.state.file);
+    }
+    const body = formdata;
     this.props.dispatch(profileActions.patchProfileAction(url, body));
-    this.props.dispatch(profileActions2.patchProfileAction2(url2, body2));
-    setTimeout(function () {
-      window.location.reload();
-    }, 1000);
+    Swal.fire({
+      title: "Profile change success!",
+      timer: 2000,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        window.location.reload();
+      }
+    });
   }
 
   render() {
-    this.data = this.state.userData.find((item) => item.id_user === this.id);
-    this.data2 = this.state.user.find((item) => item.id_user === this.id);
-
-    // console.log(this.state.file);
-    // console.log(localStorage.getItem("token"));
-    // console.log(`email ${this.state.email}`);
-    // console.log(`address ${this.state.address}`);
-    // console.log(`mobile ${this.state.mobile}`);
-    // console.log(`display ${this.state.display}`);
-    // console.log(`first ${this.state.first}`);
-    // console.log(`last ${this.state.last}`);
-    // console.log(`birth ${this.state.birth}`);
-
     return (
       <Fragment>
         <body className={styles["body-2"]}>
@@ -194,21 +139,19 @@ class Profiles extends Component {
                       <div className={styles["aside-center-header-768"]}>
                         <img
                           className={styles["profile-picture"]}
-                          src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
-                          alt={"profile-img"}
-                          onError={(e) =>
-                            (e.target.onerror = null)(
-                              (e.target.src =
-                                "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg")
-                            )
+                          src={
+                            this.data?.image_user !== undefined
+                              ? "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                              : this.state.image
                           }
+                          alt={"profile-img"}
                         />
                         <div>
                           <p className={styles["left-aside-header"]}>
-                            {this.data?.display_name}
+                            {this.state.display}
                           </p>
                           <p className={styles["left-aside-text"]}>
-                            {this.data2?.email}
+                            {this.state.email}
                           </p>
                         </div>
                       </div>
@@ -310,7 +253,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data2?.email}
+                                {this.state.email}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -333,7 +276,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data?.address}
+                                {this.state.address}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -356,7 +299,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data2?.phone_number}
+                                {this.state.mobile}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -384,7 +327,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data?.display_name}
+                                {this.state.display}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -407,7 +350,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data?.first_name}
+                                {this.state.first}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -430,7 +373,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data?.last_name}
+                                {this.state.last}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}
@@ -453,7 +396,7 @@ class Profiles extends Component {
                                 className={styles["input-text"]}
                                 style={{ display: this.state.hide1 }}
                               >
-                                {this.data?.birthday}
+                                {this.state.birth}
                               </div>
                               <input
                                 style={{ display: this.state.hide2 }}

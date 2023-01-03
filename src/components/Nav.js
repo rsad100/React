@@ -18,14 +18,13 @@ class Navigate extends Component {
   }
 
   componentDidMount() {
-    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/userdata`;
     this.token = localStorage.getItem("token");
     if (this.token) {
       const info = jwt(this.token);
       this.id = info.user_id;
       this.role = info.role;
     }
-
+    const url = `${process.env.REACT_APP_BACKEND_HOST}/api/v1/users/${this.id}`;
     // console.log(id);
     Axios.get(url)
       .then((res) => {
@@ -56,7 +55,7 @@ class Navigate extends Component {
           <p
             className={styles[this.props.home]}
             onClick={() => {
-              this.props.navigate("/home");
+              this.props.navigate("/");
             }}
           >
             Home
@@ -153,14 +152,12 @@ class Navigate extends Component {
               onClick={() => {
                 this.props.navigate(`/profile/${this.id}`);
               }}
-              src={`https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`}
-              alt="profile-img"
-              onError={(e) =>
-                (e.target.onerror = null)(
-                  (e.target.src =
-                    "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg")
-                )
+              src={
+                this.data?.image_user === null
+                  ? "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                  : `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.data?.image_user}`
               }
+              alt="profile-img"
             />
           </section>
         )}

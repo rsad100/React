@@ -423,6 +423,12 @@
   column-gap: 40px;
 }
 
+.section-3-div-6 {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
 .section-3-text-2 {
   font-weight: 400;
   font-size: 20px;
@@ -430,6 +436,17 @@
 }
 
 .section-3-text-3 {
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  color: black;
+}
+
+.section-3-text-4 {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  align-self: center;
   font-weight: 700;
   font-size: 25px;
   line-height: 38px;

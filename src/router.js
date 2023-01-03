@@ -21,7 +21,7 @@ import PrivateElementUser from "./components/PrivateElementUser";
 const router = createBrowserRouter([
   { path: "/Signup", element: <Signup /> },
   { path: "/Login", element: <Login /> },
-  { path: "/Home", element: <Home /> },
+  { path: "/", element: <Home /> },
   {
     path: "/Profile/:id",
     element: (
