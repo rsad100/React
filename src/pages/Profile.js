@@ -30,6 +30,7 @@ class Profiles extends Component {
       file: undefined,
       hide1: "inline",
       hide2: "none",
+      imageprev: undefined,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSubmit1 = this.handleSubmit1.bind(this);
@@ -52,7 +53,7 @@ class Profiles extends Component {
           display: res.data.result[0].display_name,
           first: res.data.result.find((item) => item.id_user === this.id)
             .first_name,
-          image: `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${res.data.result[0].image_user}`,
+          image: res.data.result[0].image_user,
           last: res.data.result.find((item) => item.id_user === this.id)
             .last_name,
           birth: res.data.result[0].birthday,
@@ -62,6 +63,7 @@ class Profiles extends Component {
           mobile: res.data.result[0].phone_number,
         });
         console.log(res.data.result[0]);
+        console.log(this.state.image);
       })
       .catch((err) => console.log(err));
   }
@@ -69,13 +71,13 @@ class Profiles extends Component {
   handleFile(event) {
     if (event.target.files && event.target.files[0]) {
       this.setState({
-        image: URL.createObjectURL(event.target.files[0]),
+        imageprev: URL.createObjectURL(event.target.files[0]),
       });
     }
     this.setState({
       file: event.target.files[0],
     });
-    console.log(this.state.image);
+    console.log(this.state.file);
   }
 
   handleChange(event, field) {
@@ -140,9 +142,11 @@ class Profiles extends Component {
                         <img
                           className={styles["profile-picture"]}
                           src={
-                            this.data?.image_user !== null
+                            this.state.imageprev
+                              ? this.state.imageprev
+                              : !this.state.image
                               ? "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
-                              : this.state.image
+                              : `https://res.cloudinary.com/dr6hbaq0j/image/upload/v${this.state.image}`
                           }
                           alt={"profile-img"}
                         />
