@@ -140,7 +140,7 @@ class Profiles extends Component {
                         <img
                           className={styles["profile-picture"]}
                           src={
-                            this.data?.image_user !== undefined
+                            this.data?.image_user !== null
                               ? "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
                               : this.state.image
                           }
